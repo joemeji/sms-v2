@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect, useDispatch } from 'react-redux';
 import Create from './Create';
+import Edit from './Edit';
 import * as P from './planStyle';
 import axios from 'axios'
 import { fetch, isFetching, setEdit } from 'store/reducer/planReducer'
@@ -22,7 +23,7 @@ export const Index = (props) => {
       <h3 className="text-center mb-4 font-weight-bold">Plans</h3>
       <div className="row">
         <div className="col-md-4">
-          <Create />
+          {props.isEdit ? <Edit/> : <Create/>}
         </div>
 
         <div className="col-md-8">
@@ -63,6 +64,7 @@ const mapStateToProps = (state) => ({
   plan: state.plan.planDocs,
   isFetching: state.plan.isFetching,
   error: state.plan.error,
+  isEdit: state.plan.isEdit,
 });
 
 const mapDispatchToProps = {};

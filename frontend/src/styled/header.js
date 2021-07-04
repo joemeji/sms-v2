@@ -21,7 +21,8 @@ export const Nav = styled.nav`
     font-weight: 600;
     border-radius: 0.50em; 
     text-decoration: none;
-    &:hover {
+    &:hover,
+    &.active {
       background: #f3f3f3;
       text-decoration: none;
       color: #000;

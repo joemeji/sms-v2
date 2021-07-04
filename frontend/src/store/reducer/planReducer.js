@@ -13,6 +13,12 @@ export const planSlice = createSlice({
     fetch: (state, action) => {
       state.planDocs = action.payload
     },
+    updateDocs: (state, action) => {
+      const index = state.planDocs.docs.findIndex(item => item._id === action._id)
+      state.planDocs.docs[index] = action.doc
+      state.isEdit = false
+      state.editId = null
+    },
     isFetching: (state, action) => {
       state.isFetching = action.payload
     },

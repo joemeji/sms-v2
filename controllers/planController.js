@@ -28,3 +28,9 @@ exports.create = async (req, res, next) => {
     next(err);
   }
 }
+
+exports.edit = async (req, res, next) => {
+  Plan.findByIdAndUpdate(req.params.id, req.body, (err, doc) => {
+    res.send(req.body);
+  });
+}
