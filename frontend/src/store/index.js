@@ -1,11 +1,9 @@
-import { combineReducers, createStore } from 'redux';
+import { configureStore } from '@reduxjs/toolkit'
+import planReducer from './reducer/planReducer'
 
-function test(state = '', action) {
-  return state;
-}
 
-const store = combineReducers({
-  test
+export default configureStore({
+  reducer: {
+    plan: planReducer
+  }
 });
-
-export default createStore(store);

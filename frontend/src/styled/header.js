@@ -13,25 +13,24 @@ export const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  a {
+    padding: 8px 15px;
+    margin-right: 3px;
+    color: #000;
+    opacity: 0.9;
+    font-weight: 600;
+    border-radius: 0.50em; 
+    text-decoration: none;
+    &:hover {
+      background: #f3f3f3;
+      text-decoration: none;
+      color: #000;
+      opacity: 1;
+    }
+  }
 `;
 
 export const Logo = styled.div`
   font-size: 1.5em;
   font-weight: 900;
-`;
-
-export const Link = styled.a`
-  padding: 8px 15px;
-  margin-right: 3px;
-  color: #000;
-  opacity: 0.9;
-  font-weight: 600;
-  border-radius: 0.25em; 
-  text-decoration: none;
-  &:hover {
-    background: #f3f3f3;
-    text-decoration: none;
-    color: #000;
-    opacity: 1;
-  }
 `;

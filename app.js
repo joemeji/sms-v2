@@ -1,13 +1,24 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const mongoose = require('mongoose');
+const db = mongoose.connection;
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 
-var app = express();
+const app = express();
+
+require('dotenv').config();
+
+mongoose.connect(
+  'mongodb+srv://joemyDb:RqQxqqTM.caXnZ6@cluster0.palsk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', 
+  {useNewUrlParser: true, useUnifiedTopology: true}
+);
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', () => console.log('db connected.'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'frontend/build')));
 // routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/api/plan', require('./routes/planRouter'));
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
 });
