@@ -7,11 +7,14 @@ export const FormWrapper = styled.form`
 
 export const PlanList = styled.div`
   background: #fff;
-  padding: 5px 0px;
 `;
 
 export const Table = styled.table`
+  margin-bottom: 0;
   thead {
+    th {
+      border-top-width: 1px;
+    }
     tr {
       &:first-child {
         th {
@@ -22,9 +25,6 @@ export const Table = styled.table`
   }
   tbody {
     tr {
-      &:nth-child(odd) td {
-        background: #f9f9f9;
-      }
       td {
         color: #6c757d;
         font-size: 0.9em;

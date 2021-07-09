@@ -5,18 +5,25 @@ import Edit from './Edit';
 import * as P from './planStyle';
 import axios from 'axios'
 import { fetch, isFetching, setEdit } from 'store/reducer/planReducer'
+import Pagination from 'components/Pagination'
+import { useLocation } from 'react-router-dom'
+import { useQuery } from 'helpers'
+import { PaginationWrapper } from 'styled'
 
 export const Index = (props) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+  const location = useLocation()
+  const query = useQuery()
+  const page = query.get('page') || ''
 
   React.useEffect(() => {
     (async () => {
       dispatch(isFetching(true))
-      const res = await axios.get('/api/plan')
+      const res = await axios.get(`/api/plan?page=${page}`)
       dispatch(fetch(res.data))
       dispatch(isFetching(false))
     })()
-  }, [dispatch])
+  }, [dispatch, page])
 
   return (
     <>
@@ -28,32 +35,40 @@ export const Index = (props) => {
 
         <div className="col-md-8">
           <P.PlanList className="rounded">
-            {props.isFetching ? 'Loading...' : (
-              <P.Table className="table">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Currency</th>
-                    <th>Actions</th>
+            <P.Table className="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Currency</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {props.plan && props.plan.docs && props.plan.docs.map((item, key) => (
+                  <tr key={key}>
+                    <td>{item.resultName}</td>
+                    <td>{item.currency}</td>
+                    <td>
+                      <button 
+                        onClick={() => dispatch( setEdit({ isEdit: true, _id: item._id }) )} 
+                        className="btn btn-sm text-primary">Edit</button>
+                      <button className="btn btn-sm text-danger">Delete</button>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {props.plan && props.plan.docs && props.plan.docs.map((item, key) => (
-                    <tr key={key}>
-                      <td>{item.resultName}</td>
-                      <td>{item.currency}</td>
-                      <td>
-                        <button 
-                          onClick={() => dispatch(setEdit({ isEdit: true, _id: item._id }))} 
-                          className="btn btn-sm text-primary">Edit</button>
-                        <button className="btn btn-sm text-danger">Delete</button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </P.Table>
-            )}
+                ))}
+              </tbody>
+            </P.Table>
           </P.PlanList>
+          {props.plan && props.plan.totalDocs > props.plan.limit && (
+            <PaginationWrapper>
+              <Pagination 
+                prevPage={props.plan.prevPage}
+                nextPage={props.plan.nextPage}
+                path={`${location.pathname}?page`}
+                current={props.plan.page} 
+                totalPages={props.plan.totalPages} />
+            </PaginationWrapper>
+          )}
         </div>
       </div>
     </>
@@ -67,6 +82,4 @@ const mapStateToProps = (state) => ({
   isEdit: state.plan.isEdit,
 });
 
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Index);
+export default connect(mapStateToProps)(Index);

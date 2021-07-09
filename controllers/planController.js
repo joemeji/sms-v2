@@ -3,8 +3,9 @@ const Plan = require('../models/Plan');
 
 exports.index = async (req, res, next) => {
   try {
+    const page = req.query.page || 1;
     const planAggregate = Plan.aggregate();
-    const plan = await Plan.aggregatePaginate(planAggregate, { page: 1, limit: process.env.LIMIT });
+    const plan = await Plan.aggregatePaginate(planAggregate, { page, limit: process.env.LIMIT });
     res.send(plan);
   }
   catch(err) {

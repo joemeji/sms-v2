@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-import planReducer from './reducer/planReducer'
+import plan from './reducer/planReducer'
 
 
 export default configureStore({
   reducer: {
-    plan: planReducer
+    plan,
   }
 });

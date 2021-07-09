@@ -3,16 +3,15 @@ import { connect, useDispatch } from 'react-redux'
 import Button from 'react-bootstrap/Button'
 import * as Forms from 'components/Forms'
 import * as P from './planStyle'
-import { useFormInput } from 'hooks'
 import { recurrence as dReccurence, currencies } from 'helpers/dropdown'
 import axios from 'axios'
-import { setEdit } from 'store/reducer/planReducer'
+import { setEdit, updateDocs } from 'store/reducer/planReducer'
 
 export const Edit = (props) => {
-  const amount = useFormInput('')
-  const currency = useFormInput('')
-  const quantity = useFormInput('')
-  const recurrence = useFormInput('')
+  const [amount, setAmount] = React.useState('')
+  const [currency, setCurrency] = React.useState('')
+  const [quantity, setQuantity] = React.useState('')
+  const [recurrence, setRecurrence] = React.useState('')
   const [resultName, setResultName] = React.useState('')
   const [disabledBtn, setDisabledBtn] = React.useState(false)
   const dispatch = useDispatch()
@@ -20,38 +19,47 @@ export const Edit = (props) => {
   const doc = props.plan && props.plan.docs && props.plan.docs.find(item => item._id === props.editId)
 
   const handleSubmit = useCallback(async (e) => {
+    let isMounted = false
     e.preventDefault()
     setDisabledBtn(true)
     const payload = { 
-      amount: Number(amount.value), 
-      currency: currency.value, 
-      quantity: Number(quantity.value), 
-      recurrence: recurrence.value, 
-      resultName: resultName.value, 
+      amount: Number(amount), 
+      quantity: Number(quantity), 
+      currency, 
+      recurrence, 
+      resultName, 
     }
     const res = await axios.post(`/api/plan/${props.editId}`, payload);
-    console.log(res.data);
-    setDisabledBtn(false)
-  }, [amount, currency, quantity, recurrence, resultName, props.editId])
+    if (res.data) {
+      dispatch( updateDocs({ _id: props.editId, doc: res.data }) )
+      dispatch( setEdit({ isEdit: false, _id: null }) )
+    }
+    if (isMounted) {
+      setDisabledBtn(false)
+      setAmount('')
+      setCurrency('')
+      setRecurrence('')
+      setQuantity('')
+      setResultName('')
+    }
+    return () => { isMounted = true }
+  }, [amount, currency, quantity, recurrence, resultName, props.editId, dispatch])
 
   React.useEffect(() => {
-    if (doc) {
-      setResultName(doc.resultName || '')
+    if (props.isEdit) {
+      if (doc) {
+        setAmount(doc.amount || '')
+        setCurrency(doc.currency || '')
+        setRecurrence(doc.recurrence || '')
+        setQuantity(doc.quantity || '')
+        setResultName(doc.resultName || '')
+      }
     }
-  }, [doc])
-
-  if (props.isEdit) {
-    if (doc) {
-      amount.value = doc.amount
-      currency.value = doc.currency
-      recurrence.value = doc.recurrence
-      quantity.value = doc.quantity
-    }
-  }
+  }, [props.isEdit, doc])
 
   React.useEffect(() => {
-    if (amount.value && currency.value && recurrence.value && quantity.value) {
-      setResultName(`${amount.value} ${currency.value} × ${quantity.value} ${recurrence.value}`)
+    if (amount && currency && recurrence && quantity) {
+      setResultName(`${amount} ${currency} × ${quantity} ${recurrence}`)
     }
   }, [amount, currency, quantity, recurrence])
 
@@ -66,8 +74,9 @@ export const Edit = (props) => {
               label="Amount" 
               id="Amount"
               placeholder="Enter Amount..."
-              {...amount}
               required
+              onChange={e => setAmount(e.target.value)}
+              value={amount}
             />
           </div>
           <div className="col-md-6">
@@ -75,9 +84,10 @@ export const Edit = (props) => {
               label="Currency" 
               id="Currency"
               placeholder="Enter Currency..."
-              {...currency}
               required
               options={['', ...currencies].map(text => ({text}))}
+              onChange={e => setCurrency(e.target.value)}
+              value={currency}
             />
           </div>
         </div>
@@ -88,8 +98,9 @@ export const Edit = (props) => {
           label="Quantity" 
           id="Quantity"
           placeholder="Enter Quantity..."
-          {...quantity}
           required
+          onChange={e => setQuantity(e.target.value)}
+          value={quantity}
         />
       </FormGroup>
       <FormGroup>
@@ -97,9 +108,10 @@ export const Edit = (props) => {
           label="Recurrence" 
           id="Recurrence"
           placeholder="Enter Recurrence..."
-          options={['', ...dReccurence].map(value => ({ value }))}
-          {...recurrence}
           required
+          options={['', ...dReccurence].map(value => ({ value }))}
+          onChange={e => setRecurrence(e.target.value)}
+          value={recurrence}
         />
       </FormGroup>
       <FormGroup>
@@ -107,9 +119,9 @@ export const Edit = (props) => {
           label="Name" 
           id="Name"
           placeholder="Enter Name..."
+          required
           onChange={e => setResultName(e.target.value)}
           value={resultName}
-          required
         />
       </FormGroup>
       <div className="text-right">

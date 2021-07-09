@@ -3,15 +3,15 @@ import { connect, useDispatch } from 'react-redux'
 import Button from 'react-bootstrap/Button'
 import * as Forms from 'components/Forms'
 import * as P from './planStyle'
-import { useFormInput } from 'hooks'
 import { recurrence as dReccurence, currencies } from 'helpers/dropdown'
 import axios from 'axios'
+import { addDocs } from 'store/reducer/planReducer'
 
 export const Create = (props) => {
-  const amount = useFormInput('')
-  const currency = useFormInput('')
-  const quantity = useFormInput('')
-  const recurrence = useFormInput('')
+  const [amount, setAmount] = React.useState('')
+  const [currency, setCurrency] = React.useState('')
+  const [quantity, setQuantity] = React.useState('')
+  const [recurrence, setRecurrence] = React.useState('')
   const [resultName, setResultName] = React.useState('')
   const [disabledBtn, setDisabledBtn] = React.useState(false)
   const dispatch = useDispatch()
@@ -20,20 +20,27 @@ export const Create = (props) => {
     e.preventDefault()
     setDisabledBtn(true)
     const payload = { 
-      amount: Number(amount.value), 
-      currency: currency.value, 
-      quantity: Number(quantity.value), 
-      recurrence: recurrence.value, 
-      resultName: resultName.value, 
+      amount: Number(amount), 
+      quantity: Number(quantity), 
+      currency, 
+      recurrence, 
+      resultName, 
     }
     const res = await axios.post('/api/plan', payload);
-    console.log(res.data);
-    setDisabledBtn(false)
-  }, [amount, currency, quantity, recurrence, resultName])
+    if (res.data) {
+      dispatch( addDocs(res.data) )
+      setDisabledBtn(false)
+      setAmount('')
+      setCurrency('')
+      setRecurrence('')
+      setQuantity('')
+      setResultName('')
+    }
+  }, [amount, currency, quantity, recurrence, resultName, dispatch])
 
   React.useEffect(() => {
-    if (amount.value && currency.value && recurrence.value && quantity.value) {
-      setResultName(`${amount.value} ${currency.value} × ${quantity.value} ${recurrence.value}`)
+    if (amount && currency && recurrence && quantity) {
+      setResultName(`${amount} ${currency} × ${quantity} ${recurrence}`)
     }
   }, [amount, currency, quantity, recurrence])
 
@@ -48,8 +55,9 @@ export const Create = (props) => {
               label="Amount" 
               id="Amount"
               placeholder="Enter Amount..."
-              {...amount}
               required
+              onChange={e => setAmount(e.target.value)}
+              value={amount}
             />
           </div>
           <div className="col-md-6">
@@ -57,9 +65,10 @@ export const Create = (props) => {
               label="Currency" 
               id="Currency"
               placeholder="Enter Currency..."
-              {...currency}
               required
               options={['', ...currencies].map(text => ({text}))}
+              onChange={e => setCurrency(e.target.value)}
+              value={currency}
             />
           </div>
         </div>
@@ -70,8 +79,9 @@ export const Create = (props) => {
           label="Quantity" 
           id="Quantity"
           placeholder="Enter Quantity..."
-          {...quantity}
           required
+          onChange={e => setQuantity(e.target.value)}
+          value={quantity}
         />
       </FormGroup>
       <FormGroup>
@@ -79,9 +89,10 @@ export const Create = (props) => {
           label="Recurrence" 
           id="Recurrence"
           placeholder="Enter Recurrence..."
-          options={['', ...dReccurence].map(value => ({ value }))}
-          {...recurrence}
           required
+          options={['', ...dReccurence].map(value => ({ value }))}
+          onChange={e => setRecurrence(e.target.value)}
+          value={recurrence}
         />
       </FormGroup>
       <FormGroup>
@@ -89,9 +100,9 @@ export const Create = (props) => {
           label="Name" 
           id="Name"
           placeholder="Enter Name..."
+          required
           onChange={e => setResultName(e.target.value)}
           value={resultName}
-          required
         />
       </FormGroup>
       <div className="text-right">
@@ -104,8 +115,7 @@ export const Create = (props) => {
 }
 
 const mapStateToProps = (state) => ({})
-const mapDispatchToProps = {}
-export default connect(mapStateToProps, mapDispatchToProps)(Create)
+export default connect(mapStateToProps)(Create)
 
 function FormGroup(props) {
   return (

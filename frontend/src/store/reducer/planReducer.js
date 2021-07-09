@@ -13,9 +13,13 @@ export const planSlice = createSlice({
     fetch: (state, action) => {
       state.planDocs = action.payload
     },
+    addDocs: (state, action) => {
+      state.planDocs.docs.push(action.payload)
+      state.planDocs.totalDocs += 1
+    },
     updateDocs: (state, action) => {
-      const index = state.planDocs.docs.findIndex(item => item._id === action._id)
-      state.planDocs.docs[index] = action.doc
+      const index = state.planDocs.docs.findIndex(item => item._id === action.payload._id)
+      state.planDocs.docs[index] = action.payload.doc
       state.isEdit = false
       state.editId = null
     },
@@ -29,6 +33,6 @@ export const planSlice = createSlice({
   }
 })  
 
-export const { fetch, isFetching, setEdit } = planSlice.actions
+export const { fetch, isFetching, setEdit, updateDocs, addDocs } = planSlice.actions
 
 export default planSlice.reducer
