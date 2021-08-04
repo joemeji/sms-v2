@@ -13,6 +13,27 @@ exports.index = async (req, res, next) => {
   }
 }
 
+exports.all = async (req, res, next) => {
+  try {
+    const plan = await Plan.find({});
+    res.send(plan);
+  }
+  catch(err) {
+    next(err);
+  }
+}
+
+exports.get = async (req, res, next) => {
+  try {
+    const { planId } = req.params;
+    const plan = await Plan.findById(planId)
+    res.send(plan);
+  }
+  catch(err) {
+    next(err);
+  }
+}
+
 exports.create = async (req, res, next) => {
   const { amount, currency, quantity, resultName, recurrence } = req.body;
   try {

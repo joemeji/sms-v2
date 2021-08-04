@@ -35,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'frontend/build')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/plan', require('./routes/planRouter'));
+app.use('/api/student', require('./routes/studentRouter'));
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
 });
