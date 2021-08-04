@@ -1,44 +1,63 @@
-import React, { useCallback } from 'react'
-import { connect } from 'react-redux'
+import React, { useCallback, useEffect } from 'react'
+import { connect, useDispatch } from 'react-redux'
 import { Form, BackButton, FormHeader } from '../studentStyle'
 import { Input, Select } from 'components/Forms'
 import Button from 'react-bootstrap/Button'
 import { MdKeyboardBackspace } from "react-icons/md"
+import { BsArrowRight } from "react-icons/bs"
 import { useForm } from "react-hook-form"
 import { funnels, pipelines } from 'helpers/dropdown'
+import { updateStudentDetailsForm, emptyDetails } from 'store/reducer/createStudentReducer'
+import { useHistory } from 'react-router-dom'
 
 export const Create = (props) => {
-  const { register, handleSubmit } = useForm()
+  const { register, handleSubmit, setValue } = useForm()
+  const dispatch = useDispatch()
+  const history = useHistory()
+  const [disabledSubmit, setDisabledSubmit] = React.useState(false);
 
   const onSubmit = useCallback((data) => {
-    console.log(data)
-  }, [])
+    setDisabledSubmit(true)
+    dispatch(updateStudentDetailsForm(data))
+    setTimeout(() => {
+      setDisabledSubmit(false)
+      history.push('/student/create/2')
+    }, 300)
+  }, [dispatch, history])
+
+  useEffect(() => {
+    if (props.student_details) {
+      for (const [key, value] of Object.entries(props.student_details)) {
+        setValue(key, value)
+      }
+    }
+  }, [props.student_details, setValue])
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormHeader>
-        <BackButton type="button" className="btn">
+        <BackButton type="button" className="btn" onClick={() => history.push('/student')}>
           <MdKeyboardBackspace />
         </BackButton>
         <h5 className="mb-0 ml-3">Student Info</h5>
       </FormHeader>
       <FormGroup>
         <Input label="First Name" placeholder="First Name"
-          {...register('firstName', { required: true })}
+          {...register('first_name', { required: true })}
         />
       </FormGroup>
       <FormGroup>
         <Input label="Last Name" placeholder="Last Name"
-          {...register('lastName', { required: true })}
+          {...register('last_name', { required: true })}
         />
       </FormGroup>
       <FormGroup>
-        <Input label="Email" placeholder="Email" 
+        <Input type="email" label="Email" placeholder="Email" 
           {...register('email', { required: true })}
         />
       </FormGroup>
       <FormGroup>
-        <Input label="Phone" placeholder="Phone" 
+        <Input type="tel" label="Phone" placeholder="Phone" 
           {...register('phone', { required: true })}
         />
       </FormGroup>
@@ -60,18 +79,21 @@ export const Create = (props) => {
         />
       </FormGroup>
       <div className="text-right">
-        <Button type="button" variant="default" className="mr-2">
+        <Button type="button" variant="default" className="mr-2" 
+          onClick={() => dispatch(emptyDetails())}>
           Cancel
         </Button>
-        <Button type="submit" variant="primary">
-          Save & Proceed
+        <Button type="submit" variant="primary" disabled={disabledSubmit}>
+          Next <BsArrowRight />
         </Button>
       </div>
     </Form>
   )
 }
 
-const mapStateToProps = (state) => ({})
+const mapStateToProps = (state) => ({
+  student_details: state.createStudent.student_details
+})
 export default connect(mapStateToProps)(Create)
 
 function FormGroup({ children }) {

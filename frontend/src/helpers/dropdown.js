@@ -45,3 +45,13 @@ export const salesRep = [
   'Sam',
   'Kalen',
 ]
+
+export const paymentStatus = [
+  'Fully Paid',
+  'Bounced',
+  'Suspended',
+  'Cancelled',
+  'Refunded',
+  'Non-Responsive',
+  'Ongoing Payment',
+];
