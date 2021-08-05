@@ -35,3 +35,13 @@ export const FormHeader = styled.div`
   margin-bottom: 30px;
   margin-left: -10px;
 `;
+
+export const TableWrapper = styled.div`
+  background: #ffff;
+  box-shadow: 0 3px 30px #00000005;
+  border-radius: 3px;
+  overflow: hidden;
+  thead tr th {
+    border-top: none !important;
+  }
+`;
