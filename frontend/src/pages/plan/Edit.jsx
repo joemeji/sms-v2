@@ -2,10 +2,10 @@ import React, { useCallback } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import Button from 'react-bootstrap/Button'
 import * as Forms from 'components/Forms'
-import * as P from './planStyle'
 import { recurrence as dReccurence, currencies } from 'helpers/dropdown'
 import axios from 'axios'
 import { setEdit, updateDocs } from 'store/reducer/planReducer'
+import Box from 'components/Box'
 
 export const Edit = (props) => {
   const [amount, setAmount] = React.useState('')
@@ -64,78 +64,79 @@ export const Edit = (props) => {
   }, [amount, currency, quantity, recurrence])
 
   return (
-    <P.FormWrapper className="rounded" onSubmit={handleSubmit}>
-      <h5 className="mb-4">Edit Plan</h5>
-      <FormGroup>
-        <div className="row">
-          <div className="col-md-6">
-            <Forms.Input 
-              type="number"
-              label="Amount" 
-              id="Amount"
-              placeholder="Enter Amount..."
-              required
-              onChange={e => setAmount(e.target.value)}
-              value={amount}
-            />
+    <Box title="Edit Plan" hasBackBtn={false}>
+      <form onSubmit={handleSubmit} className="py-4 px-3">
+        <FormGroup>
+          <div className="row">
+            <div className="col-md-6">
+              <Forms.Input 
+                type="number"
+                label="Amount" 
+                id="Amount"
+                placeholder="Enter Amount..."
+                required
+                onChange={e => setAmount(e.target.value)}
+                value={amount}
+              />
+            </div>
+            <div className="col-md-6">
+              <Forms.Select 
+                label="Currency" 
+                id="Currency"
+                placeholder="Enter Currency..."
+                required
+                options={['', ...currencies].map(text => ({text}))}
+                onChange={e => setCurrency(e.target.value)}
+                value={currency}
+              />
+            </div>
           </div>
-          <div className="col-md-6">
-            <Forms.Select 
-              label="Currency" 
-              id="Currency"
-              placeholder="Enter Currency..."
-              required
-              options={['', ...currencies].map(text => ({text}))}
-              onChange={e => setCurrency(e.target.value)}
-              value={currency}
-            />
-          </div>
+        </FormGroup>
+        <FormGroup>
+          <Forms.Input 
+            type="number"
+            label="Quantity" 
+            id="Quantity"
+            placeholder="Enter Quantity..."
+            required
+            onChange={e => setQuantity(e.target.value)}
+            value={quantity}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Forms.Select 
+            label="Recurrence" 
+            id="Recurrence"
+            placeholder="Enter Recurrence..."
+            required
+            options={['', ...dReccurence].map(value => ({ value }))}
+            onChange={e => setRecurrence(e.target.value)}
+            value={recurrence}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Forms.Input 
+            label="Name" 
+            id="Name"
+            placeholder="Enter Name..."
+            required
+            onChange={e => setResultName(e.target.value)}
+            value={resultName}
+          />
+        </FormGroup>
+        <div className="text-right">
+          <Button 
+            disabled={disabledBtn}
+            variant="light" 
+            className="mr-2"
+            onClick={() => dispatch(setEdit({ isEdit: false, _id: null }))}
+            type="button">Cancel</Button>
+          <Button 
+            disabled={disabledBtn} 
+            type="submit">Update</Button>
         </div>
-      </FormGroup>
-      <FormGroup>
-        <Forms.Input 
-          type="number"
-          label="Quantity" 
-          id="Quantity"
-          placeholder="Enter Quantity..."
-          required
-          onChange={e => setQuantity(e.target.value)}
-          value={quantity}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Forms.Select 
-          label="Recurrence" 
-          id="Recurrence"
-          placeholder="Enter Recurrence..."
-          required
-          options={['', ...dReccurence].map(value => ({ value }))}
-          onChange={e => setRecurrence(e.target.value)}
-          value={recurrence}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Forms.Input 
-          label="Name" 
-          id="Name"
-          placeholder="Enter Name..."
-          required
-          onChange={e => setResultName(e.target.value)}
-          value={resultName}
-        />
-      </FormGroup>
-      <div className="text-right">
-        <Button 
-          disabled={disabledBtn}
-          variant="light" 
-          className="mr-2"
-          onClick={() => dispatch(setEdit({ isEdit: false, _id: null }))}
-          type="button">Cancel</Button>
-        <Button 
-          disabled={disabledBtn} 
-          type="submit">Update</Button>
-      </div>
-    </P.FormWrapper>
+      </form>
+    </Box>
   )
 }
 

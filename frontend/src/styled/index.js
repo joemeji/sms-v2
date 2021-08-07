@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 export const PaginationWrapper = styled.div`
-  background: #fff;
-  padding: 10px;
-  margin-top: 9px;
+  background: var(var(--box-bg));
+  padding: 10px 0;
+  margin-top: 30px;
   display: flex;
   justify-content: center;
   border-radius: 5px;
@@ -11,12 +11,19 @@ export const PaginationWrapper = styled.div`
     margin-bottom: 0;
     .page-link {
       font-weight: 500;
-      color: #000;
-      border: 1px solid white;
+      color: var(--text-color);
+      border: 1px solid transparent;
       border-radius: 7px;
       margin: 0 1px;
+      background: transparent;
+      &:hover {
+        background: var(--link-hover-bg);
+        color: var(--link-color-nav);
+        opacity: 0.7;
+      }
       &.active {
-        background: #dbe2e8;
+        background: var(--link-hover-bg);
+        color: var(--link-color-nav);
       }
     }
   }

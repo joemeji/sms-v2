@@ -13,7 +13,7 @@ export const BackButton = styled.button`
   place-content: center;
   margin-right: 15px;
   font-size: 1.2em;
-  background: #f3f3f3;
+  background: var(--back-btn-bg);
   &:hover {
     opacity: 0.8;
   }
@@ -23,7 +23,12 @@ export const BoxHeader = styled.div`
   display: flex;
   align-items: center;
   padding: 13px 15px;
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid var(--border-color);
+  justify-content: space-between;
+  & > div {
+    display: flex;
+    align-items: center;
+  }
 `
 
 export const BoxBody = styled.div`
@@ -32,9 +37,8 @@ export const BoxBody = styled.div`
 
 export const BoxWrapper = styled.div`
   width: 100%;
-  background: #fff;
+  background: var(--box-bg);
   max-width: ${props => props.maxWidth || '1300px'};
   border-radius: 7px;
-  overflow: hidden;
-  box-shadow: ${props => props.hasShadow && '0 2px 14px #00000012'}
+  box-shadow: ${props => props.hasShadow && '0 2px 14px #00000012'};
 `

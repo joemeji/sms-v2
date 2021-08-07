@@ -11,11 +11,8 @@ export const Header = (props) => {
         <h.Logo>ECOM Academy</h.Logo>
         <div className="links">
           <NavLink to="/student">Student</NavLink>
-          <NavLink to="/plan">All Payment Dues</NavLink>
+          <NavLink to="/all-payment-dues">All Payment Dues</NavLink>
           <NavLink to="/plan">Plans</NavLink>
-          <NavLink to="/plan">Sales Rep</NavLink>
-          <NavLink to="/plan">Pipeline</NavLink>
-          <NavLink to="/plan">Funnel</NavLink>
         </div>
         <Button primary="true">Logout</Button>
       </h.Nav>

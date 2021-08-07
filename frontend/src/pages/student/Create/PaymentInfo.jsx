@@ -92,95 +92,97 @@ export const PaymentInfo = (props) => {
         </BackButton>
         <h5 className="mb-0 ml-3">Payment Info</h5>
       </FormHeader>
-      <FormGroup>
+      <div className="py-4">
+        <FormGroup>
+          <div className="row">
+            <div className="col-md-4">
+              <Input type="number" label="Deposit" placeholder="Amount" 
+                {...register('amount', { required: true })}
+              />
+            </div>
+            <div className="col-md-4">
+              <Select label="Currency" 
+                {...register('currency', { required: true })}
+                options={['', ...currencies].map(value => ({ value }))}
+              />
+            </div>
+            <div className="col-md-4">
+              <DatePicker
+                label="Date"
+                className="regular"
+                format="YYYY-MM-DD"
+                value={moment(depositDate || new Date())}
+                onChange={(date, dateString) => onDatePickerChange(date, dateString, 'depositDate')}
+              />
+            </div>
+          </div>
+        </FormGroup>
+        <FormGroup>
         <div className="row">
-          <div className="col-md-4">
-            <Input type="number" label="Deposit" placeholder="Amount" 
-              {...register('amount', { required: true })}
+          <div className="col-md-6">
+            <Select
+              label="Payment Plan"
+              {...register('payment_plan_id', { required: true })}
+              options={['', ...plans.map(_ => ({ text: _.resultName, value: _._id }))]}
             />
           </div>
-          <div className="col-md-4">
-            <Select label="Currency" 
-              {...register('currency', { required: true })}
-              options={['', ...currencies].map(value => ({ value }))}
-            />
-          </div>
-          <div className="col-md-4">
-            <DatePicker
-              label="Date"
-              className="regular"
-              format="YYYY-MM-DD"
-              value={moment(depositDate || new Date())}
-              onChange={(date, dateString) => onDatePickerChange(date, dateString, 'depositDate')}
-            />
+          <div className="col-md-6">
+              <DatePicker
+                label="Payment Date Start"
+                className="regular"
+                format="YYYY-MM-DD"
+                value={moment(payment_date_start || new Date())}
+                onChange={(date, dateString) => onDatePickerChange(date, dateString, 'paymentDateStart')}
+              />
           </div>
         </div>
-      </FormGroup>
-      <FormGroup>
-      <div className="row">
-        <div className="col-md-6">
-          <Select
-            label="Payment Plan"
-            {...register('payment_plan_id', { required: true })}
-            options={['', ...plans.map(_ => ({ text: _.resultName, value: _._id }))]}
+        </FormGroup>
+        <FormGroup>
+          <Select label="Signed Contract" 
+            {...register('signed_contract', { required: true })}
+            options={[
+              {value: ''},
+              {value: 'Yes'},
+              {value: 'No'}
+            ]}
           />
+        </FormGroup>
+        <FormGroup>
+          <Select label="Sales Rep" 
+            {...register('sales_rep', { required: true })}
+            options={['', ...salesRep].map(value => ({ value }))}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Select label="Payment Methods" 
+            {...register('payment_method', { required: true })}
+            options={['', ...paymentMethods].map(value => ({ value }))}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Select label="Payment Status" 
+            {...register('payment_status', { required: true })}
+            options={['', ...paymentStatus].map(value => ({ value }))}
+          />
+        </FormGroup>
+        <FormGroup>
+          <DatePicker
+            label="Joined Date"
+            className="regular"
+            format="YYYY-MM-DD"
+            value={moment(joined_date || new Date())}
+            onChange={(date, dateString) => onDatePickerChange(date, dateString, 'joinedDate')}
+          />
+        </FormGroup>
+        <div className="text-right">
+          <Button type="button" variant="default" className="mr-2" 
+            onClick={() => dispatch(emptyDetails())}>
+            Cancel
+          </Button>
+          <Button type="submit" variant="primary" disabled={disableSubmit}>
+            Next <BsArrowRight />
+          </Button>
         </div>
-        <div className="col-md-6">
-            <DatePicker
-              label="Payment Date Start"
-              className="regular"
-              format="YYYY-MM-DD"
-              value={moment(payment_date_start || new Date())}
-              onChange={(date, dateString) => onDatePickerChange(date, dateString, 'paymentDateStart')}
-            />
-        </div>
-      </div>
-      </FormGroup>
-      <FormGroup>
-        <Select label="Signed Contract" 
-          {...register('signed_contract', { required: true })}
-          options={[
-            {value: ''},
-            {value: 'Yes'},
-            {value: 'No'}
-          ]}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Select label="Sales Rep" 
-          {...register('sales_rep', { required: true })}
-          options={['', ...salesRep].map(value => ({ value }))}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Select label="Payment Methods" 
-          {...register('payment_method', { required: true })}
-          options={['', ...paymentMethods].map(value => ({ value }))}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Select label="Payment Status" 
-          {...register('payment_status', { required: true })}
-          options={['', ...paymentStatus].map(value => ({ value }))}
-        />
-      </FormGroup>
-      <FormGroup>
-        <DatePicker
-          label="Joined Date"
-          className="regular"
-          format="YYYY-MM-DD"
-          value={moment(joined_date || new Date())}
-          onChange={(date, dateString) => onDatePickerChange(date, dateString, 'joinedDate')}
-        />
-      </FormGroup>
-      <div className="text-right">
-        <Button type="button" variant="default" className="mr-2" 
-          onClick={() => dispatch(emptyDetails())}>
-          Cancel
-        </Button>
-        <Button type="submit" variant="primary" disabled={disableSubmit}>
-          Next <BsArrowRight />
-        </Button>
       </div>
     </Form>
   )

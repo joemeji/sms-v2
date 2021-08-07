@@ -86,7 +86,7 @@ exports.getPaymentList = async (req, res, next) => {
         $match: { is_deleted: false, student: new Types.ObjectId(studentId) }
       },
     ]);
-    const paymentList = await PaymentList.aggregatePaginate(paymentListAggregate, { page, limit: 20 });
+    const paymentList = await PaymentList.aggregatePaginate(paymentListAggregate, { page, limit: 15 });
     res.send(paymentList);
   }
   catch(err) {
@@ -99,6 +99,26 @@ exports.updatePaymentList = async (req, res, next) => {
     const { paymentListId, studentId } = req.params
     let paymentList = await PaymentList.findByIdAndUpdate(paymentListId, { ...req.body })
     paymentList = await PaymentList.findById(paymentListId)
+    res.send(paymentList)
+  }
+  catch(err) {
+    next(err);
+  }
+} 
+
+exports.addPaymentList = async (req, res, next) => {
+  try {
+    const { studentId } = req.params
+    const {amount, currency, date_paid, due_date, plan, status, student} = req.body
+    let paymentList = await PaymentList.create({ 
+      amount, 
+      currency, 
+      date_paid, 
+      due_date, 
+      plan, 
+      status, 
+      student
+     })
     res.send(paymentList)
   }
   catch(err) {

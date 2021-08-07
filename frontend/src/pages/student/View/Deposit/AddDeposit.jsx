@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from 'react'
-import { connect, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Box from 'components/Box'
 import { Input, DatePicker, Select } from 'components/Forms'
 import moment from 'moment'
@@ -29,14 +29,14 @@ export const AddDeposit = ({ studentId, currency }) => {
         dispatch( 
           addDeposit(data) 
         )
-        history.push('/deposits')
+        history.replace('/deposits')
       }, 300)
     }
   }, [amount, date, studentId, history, dispatch, currencyForm])
 
   return (
-    <Box hasShadow={true} maxWidth="80%" title="Add Deposit" titleSize="1.1em">
-      <form onSubmit={handleAddDeposit} className="pt-4 pb-4 pr-2 pl-2">
+    <Box hasShadow={true} maxWidth="400px" title="Add Deposit" titleSize="1.1em">
+      <form onSubmit={handleAddDeposit} className="py-4 px-2">
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
@@ -70,12 +70,4 @@ export const AddDeposit = ({ studentId, currency }) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  
-})
-
-const mapDispatchToProps = {
-  
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddDeposit)
+export default AddDeposit

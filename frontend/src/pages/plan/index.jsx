@@ -7,35 +7,35 @@ import axios from 'axios'
 import { fetch, isFetching, setEdit } from 'store/reducer/planReducer'
 import Pagination from 'components/Pagination'
 import { useLocation } from 'react-router-dom'
-import { useQuery } from 'helpers'
+import { useQuery } from 'hooks'
 import { PaginationWrapper } from 'styled'
+import Box from 'components/Box';
 
 export const Index = (props) => {
   const dispatch = useDispatch()
   const location = useLocation()
   const query = useQuery()
-  const page = query.get('page') || ''
+  const queries = query.toString()
 
   React.useEffect(() => {
     (async () => {
       dispatch(isFetching(true))
-      const res = await axios.get(`/api/plan?page=${page}`)
+      const res = await axios.get(`/api/plan${queries ? `?${queries}` : ''}`)
       dispatch(fetch(res.data))
       dispatch(isFetching(false))
     })()
-  }, [dispatch, page])
+  }, [dispatch, queries])
 
   return (
     <>
-      <h3 className="text-center mb-4 font-weight-bold">Plans</h3>
       <div className="row">
         <div className="col-md-4">
           {props.isEdit ? <Edit/> : <Create/>}
         </div>
 
         <div className="col-md-8">
-          <P.PlanList className="rounded">
-            <P.Table className="table">
+          <Box hasBackBtn={false} title="Plans">
+            <P.Table className="table mb-3 mt-3">
               <thead>
                 <tr>
                   <th>Name</th>
@@ -58,17 +58,17 @@ export const Index = (props) => {
                 ))}
               </tbody>
             </P.Table>
-          </P.PlanList>
-          {props.plan && props.plan.totalDocs > props.plan.limit && (
-            <PaginationWrapper>
-              <Pagination 
-                prevPage={props.plan.prevPage}
-                nextPage={props.plan.nextPage}
-                path={`${location.pathname}?page`}
-                current={props.plan.page} 
-                totalPages={props.plan.totalPages} />
-            </PaginationWrapper>
-          )}
+            {props.plan && props.plan.totalDocs > props.plan.limit && (
+              <PaginationWrapper className="mb-3">
+                <Pagination 
+                  prevPage={props.plan.prevPage}
+                  nextPage={props.plan.nextPage}
+                  path={`${location.pathname}?page`}
+                  current={props.plan.page} 
+                  totalPages={props.plan.totalPages} />
+              </PaginationWrapper>
+            )}
+          </Box>
         </div>
       </div>
     </>

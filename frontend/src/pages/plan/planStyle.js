@@ -26,7 +26,6 @@ export const Table = styled.table`
   tbody {
     tr {
       td {
-        color: #6c757d;
         font-size: 0.9em;
         font-weight: 500;
       }

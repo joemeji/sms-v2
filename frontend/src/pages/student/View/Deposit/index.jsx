@@ -157,7 +157,7 @@ const Form = ({ deposits, studentId, depositIndex, currency, amount, date, onCan
 
 // Stateless component
 const DetailWrap = ({ match, children }) => (<>
-  <Link to={`${match.url}/add`} className="btn btn-sm btn-outline-success mb-3">
+  <Link to={`${match.url}/add`} className="btn btn-sm btn-primary mb-3">
     Add Deposit
   </Link>
   <table className="table table-bordered">

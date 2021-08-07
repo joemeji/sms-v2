@@ -4,7 +4,7 @@ const _height = '70px';
 
 export const Header = styled.header`
   height: ${_height};
-  background: #fff;
+  background: var(--box-bg);
   box-shadow: -1px 0px 20px #00000026;
 `;
 
@@ -16,16 +16,15 @@ export const Nav = styled.nav`
   a {
     padding: 8px 15px;
     margin-right: 3px;
-    color: #000;
+    color: var(--link-color-nav);
     opacity: 0.9;
     font-weight: 600;
     border-radius: 0.50em; 
     text-decoration: none;
     &:hover,
     &.active {
-      background: #f3f3f3;
+      background: var(--link-hover-bg);
       text-decoration: none;
-      color: #000;
       opacity: 1;
     }
   }

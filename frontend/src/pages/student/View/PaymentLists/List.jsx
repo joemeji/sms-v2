@@ -6,22 +6,56 @@ import { currencies, paymentListStatus } from 'helpers/dropdown'
 import { DatePicker, Input, Select } from 'components/Forms'
 import { updatePaymentList, deletePaymentList } from 'store/reducer/paymentLists'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
+import { useQuery } from 'hooks'
+import Pagination from 'components/Pagination'
+import { PaginationWrapper } from 'styled'
+import { allPaymentList } from 'store/reducer/paymentLists'
 
-export const List = ({ listDocs }) => {
+export const List = ({ listDocs, match, student ,payment }) => {
+  const query = useQuery()
+  const dispatch = useDispatch()
+  const studentId = student && student._id
+  const queries = query.toString()
+
+  React.useEffect(() => {
+    let unmount = true
+    if (unmount) {
+      (async () => {
+        dispatch( allPaymentList({ isFetching: false }) )
+        if (studentId) {
+          const { data } = await axios.get(
+            `/api/student/${studentId}/payment_list?${queries}`
+          )
+          dispatch( allPaymentList({ isFetching: false, payment: data }) )
+        }
+      })()
+    }
+    return () => unmount = false
+  }, [dispatch, studentId, queries])
+
   return (
-    <div className="pt-4 pb-4">
+    <>
       <div className="lists-actions mb-3">
-        <button className="btn btn-sm btn-outline-success">Add Payment</button>
+        <Link to={`${match.url}/add`} className="btn btn-sm btn-primary">Add Payment</Link>
       </div>
       <ListContainer listDocs={listDocs} />
-    </div>
+      {payment && (payment.totalDocs > payment.limit) && <PaginationWrapper className="p-0">
+        <Pagination 
+          totalPages={payment && payment.totalPages}
+          current={payment && payment.page}
+        />
+      </PaginationWrapper>}
+    </>
   )
 }
 
 const mapStateToProps = (state) => ({
-  listDocs: state.paymentList.payment && state.paymentList.payment.docs
+  listDocs: state.paymentList.payment && state.paymentList.payment.docs,
+  limit: state.paymentList.payment && state.paymentList.payment.limit,
+  payment: state.paymentList.payment,
+  student: state.studentDetails.studentDetails
 })
-
 
 export default connect(mapStateToProps)(List)
 

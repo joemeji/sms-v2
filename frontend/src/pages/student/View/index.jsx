@@ -11,7 +11,6 @@ import axios from 'axios'
 import { getDetails } from 'store/reducer/studentDetails'
 import { allDeposit } from 'store/reducer/depositReducer'
 import PaymentLists from './PaymentLists'
-import { allPaymentList } from 'store/reducer/paymentLists'
 
 export const Index = ({ match }) => {
   const { studentId } = useParams()
@@ -44,20 +43,6 @@ export const Index = ({ match }) => {
     return () => unmount = false
   }, [studentId, dispatch])
 
-  React.useEffect(() => {
-    let unmount = true
-    if (unmount) {
-      (async () => {
-        dispatch( allPaymentList({ isFetching: false }) )
-        if (studentId) {
-          const { data } = await axios.get(`/api/student/${studentId}/payment_list`)
-          dispatch( allPaymentList({ isFetching: false, payment: data }) )
-        }
-      })()
-    }
-    return () => unmount = false
-  }, [dispatch, studentId])
-
   return (
     <MainWrapper>
       <Box title="Details" backPath="/student">
@@ -66,7 +51,7 @@ export const Index = ({ match }) => {
             <div className="col-md-2 pl-0">
               <style.LinkWrapper className="border-right p-3">
                 <NavLink to="/home">Home</NavLink>
-                <NavLink to="/edit">Edit</NavLink>
+                <NavLink to="/edit">Edit Info</NavLink>
                 <NavLink to="/payment-lists">Payment Lists</NavLink>
                 <NavLink to="/deposits">Deposits</NavLink>
               </style.LinkWrapper>

@@ -8,7 +8,7 @@ export const FormWrapper = styled.div`
 
 export const Form = styled.form`
   background: #fff;
-  padding: 10px 30px 30px;
+  padding: 0 30px;
   width: 100%;
   max-width: 600px;
   border-radius: 4px;
@@ -32,16 +32,16 @@ export const BackButton = styled.button`
 export const FormHeader = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 30px;
   margin-left: -10px;
+  padding: 13px 0;
+  border-bottom: 1px solid #ced4da;
 `;
 
 export const TableWrapper = styled.div`
-  background: #ffff;
   box-shadow: 0 3px 30px #00000005;
   border-radius: 3px;
   overflow: hidden;
-  thead tr th {
+  tbody tr:first-child th {
     border-top: none !important;
   }
 `;

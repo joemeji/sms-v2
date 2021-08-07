@@ -73,18 +73,20 @@ export const AllDetails = ({ student_details, payment_details }) => {
         <h5 className="mb-0 ml-3">Details</h5>
       </FormHeader>
 
-      <Row className="row">
-        <ColOne details={details} />
-        <ColTwo details={details} plan={plan} />
-      </Row>
+      <div className="pb-4">
+        <Row className="row">
+          <ColOne details={details} />
+          <ColTwo details={details} plan={plan} />
+        </Row>
 
-      <div className="text-right">
-        <Button type="button" variant="default" className="mr-2" onClick={() => dispatch(emptyDetails())}>
-          Cancel
-        </Button>
-        <Button type="submit" variant="primary" disabled={disabledSubmit}>
-          Submit
-        </Button>
+        <div className="text-right">
+          <Button type="button" variant="default" className="mr-2" onClick={() => dispatch(emptyDetails())}>
+            Cancel
+          </Button>
+          <Button type="submit" variant="primary" disabled={disabledSubmit}>
+            Submit
+          </Button>
+        </div>
       </div>
     </Form>
   )
@@ -203,7 +205,6 @@ const TitleTd = styled.td`
 const Row = styled.div`
   border-bottom: 1px solid #eceaea;
   margin-bottom: 20px;
-  border-top: 1px solid #eceaea;
   padding: 18px 0;
 `;
 

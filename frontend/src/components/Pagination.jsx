@@ -1,31 +1,25 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { useQuery } from 'hooks'
 
-export default function Links(props) {
-  const pages =  pagination(props.current, props.totalPages);
+export default function Links({ current, totalPages }) {
+  const pages =  pagination(current, totalPages);
+  const query = useQuery();
+
+  const _pages = pages && pages.map(page => {
+    query.set('page', page);
+    const queries = query.toString();
+    return {
+      url: page === '...' ? '...'  : `?${queries}`,
+      page,
+    }
+  });
 
   return (
     <ul className="pagination">
-      {!props.prevPage ? (
-        <li className="page-item disabled">
-          <span className="page-link">
-            <span aria-hidden="true">Prev</span>
-          </span>
-        </li>
-      ) : (
-        <li className="page-item">
-          <NavLink
-            className="page-link" role="button" 
-            activeClassName={`${props.current === props.prevPage ? 'active' : ''}`} 
-            to={`${props.path}=${props.prevPage}`}>
-            <span aria-hidden="true">Prev</span>
-          </NavLink>
-        </li>
-      )}
-
-      {pages && pages.map((item, key) => (
+      {_pages && _pages.map((item, key) => (
         <React.Fragment key={key}>
-          {item === '...' ? (
+          {item.url === '...' ? (
             <li className="page-item">
               <button className="page-link">
                 <span aria-hidden="true">…</span>
@@ -34,31 +28,15 @@ export default function Links(props) {
             </li>
           ) : (
             <li className="page-item">
-              <NavLink className="page-link" role="button"
-                activeClassName={`${props.current === item  ? 'active' : ''}`} 
-                to={`${props.path}=${item}`}
-              >{item}</NavLink>
+              <NavLink role="button"
+                className="page-link"
+                activeClassName={`${current === item.page  ? 'active' : ''}`}
+                to={item.url}
+              >{item.page}</NavLink>
             </li>
           )}
         </React.Fragment>
       ))}
-      {!props.nextPage ? (
-        <li className="page-item disabled">
-          <span className="page-link">
-            <span aria-hidden="true">Next</span>
-          </span>
-        </li>
-      ) : (
-        <li className="page-item">
-          <NavLink 
-            className="page-link" role="button"
-            activeClassName={`${props.current === props.nextPage ? 'active' : ''}`} 
-            to={`${props.path}=${props.nextPage}`}
-          >
-            <span aria-hidden="true">Next</span>
-          </NavLink>
-        </li>
-      )}
     </ul>
   );
 }

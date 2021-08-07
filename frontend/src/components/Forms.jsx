@@ -11,7 +11,6 @@ const DatePickerWrapper = styled.div`
   .ant-picker.regular {
     height: calc(1.75em + .76rem + 2px) !important;
     border-radius: .25rem !important;
-    border: 1px solid #ced4da !important;
     width: 100%;
   }
 `;

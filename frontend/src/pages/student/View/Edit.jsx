@@ -46,7 +46,7 @@ export const Edit = ({ studentDetails }) => {
       </div>
       {studentDetails && (
         <div className="col-md-12 py-4 text-right">
-          <Link to="/home" className="btn mr-2" disabled={disabledSubmit}>Cancel</Link>
+          <Link to="/home" className="btn btn-light mr-2" disabled={disabledSubmit}>Cancel</Link>
           <button className="btn btn-primary" type="submit" disabled={disabledSubmit}>Update</button>
         </div>
       )}

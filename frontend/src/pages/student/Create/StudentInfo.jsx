@@ -41,54 +41,56 @@ export const Create = (props) => {
         </BackButton>
         <h5 className="mb-0 ml-3">Student Info</h5>
       </FormHeader>
-      <FormGroup>
-        <Input label="First Name" placeholder="First Name"
-          {...register('first_name', { required: true })}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Input label="Last Name" placeholder="Last Name"
-          {...register('last_name', { required: true })}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Input type="email" label="Email" placeholder="Email" 
-          {...register('email', { required: true })}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Input type="tel" label="Phone" placeholder="Phone" 
-          {...register('phone', { required: true })}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Input label="Country" placeholder="Country" 
-          {...register('country', { required: true })}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Select label="Pipeline" 
-          {...register('pipeline', { required: true })}
-          options={['', ...pipelines].map(value => ({ value }))}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Select label="Funnel" 
-          {...register('funnel', { required: true })}
-          options={['', ...funnels].map(value => ({ value }))}
-        />
-      </FormGroup>
-      <div className="text-right">
-        <Button type="button" variant="default" className="mr-2" 
-          onClick={() => {
-            dispatch(emptyDetails()); 
-            history.push('/student');
-          }}>
-          Cancel
-        </Button>
-        <Button type="submit" variant="primary" disabled={disabledSubmit}>
-          Next <BsArrowRight />
-        </Button>
+      <div className="py-4">
+        <FormGroup>
+          <Input label="First Name" placeholder="First Name"
+            {...register('first_name', { required: true })}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Input label="Last Name" placeholder="Last Name"
+            {...register('last_name', { required: true })}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Input type="email" label="Email" placeholder="Email" 
+            {...register('email', { required: true })}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Input type="tel" label="Phone" placeholder="Phone" 
+            {...register('phone', { required: true })}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Input label="Country" placeholder="Country" 
+            {...register('country', { required: true })}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Select label="Pipeline" 
+            {...register('pipeline', { required: true })}
+            options={['', ...pipelines].map(value => ({ value }))}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Select label="Funnel" 
+            {...register('funnel', { required: true })}
+            options={['', ...funnels].map(value => ({ value }))}
+          />
+        </FormGroup>
+        <div className="text-right">
+          <Button type="button" variant="default" className="mr-2" 
+            onClick={() => {
+              dispatch(emptyDetails()); 
+              history.push('/student');
+            }}>
+            Cancel
+          </Button>
+          <Button type="submit" variant="primary" disabled={disabledSubmit}>
+            Next <BsArrowRight />
+          </Button>
+        </div>
       </div>
     </Form>
   )

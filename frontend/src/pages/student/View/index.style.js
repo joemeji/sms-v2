@@ -9,14 +9,14 @@ export const LinkWrapper = styled.div`
     margin-bottom: 3px;
     border-radius: 7px;
     padding: 8px 15px;
-    color: #000;
+    color: var(--link-color-nav);
     font-weight: 600;
     &.active {
       background: var(--primary);
       color: #fff;
     }
     &:hover:not(.active) {
-      background: #f3f3f3;
+      background: var(--link-hover-bg);
     }
   }
 `
