@@ -54,4 +54,12 @@ export const paymentStatus = [
   'Refunded',
   'Non-Responsive',
   'Ongoing Payment',
+  'Pending'
 ];
+
+export const paymentListStatus = [
+  'Paid',
+  'Pending',
+  'Cancelled',
+  'Bounced',
+]

@@ -132,7 +132,7 @@ const Form = ({ deposits, studentId, depositIndex, currency, amount, date, onCan
       <FormInputWrap>
         <DatePicker 
           format="YYYY-MM-DD"
-          value={moment(formDate || new Date())}
+          value={moment.utc(formDate || new Date())}
           onChange={(date, dateString) => setFormDate(dateString)}
         />
       </FormInputWrap>
@@ -140,12 +140,12 @@ const Form = ({ deposits, studentId, depositIndex, currency, amount, date, onCan
         <button 
           disabled={disabledSubmit}
           onClick={onUpdate}
-          className="btn btn-outline-success btn-sm mr-2">
+          className="btn btn-success btn-sm mr-2">
           Update
         </button>
         <button 
           disabled={disabledSubmit}
-          className="btn btn-outline-primary btn-sm" 
+          className="btn btn-primary btn-sm" 
           onClick={onCancel}>
             Cancel
         </button>
@@ -157,7 +157,7 @@ const Form = ({ deposits, studentId, depositIndex, currency, amount, date, onCan
 
 // Stateless component
 const DetailWrap = ({ match, children }) => (<>
-  <Link to={`${match.url}/add`} className="btn btn-outline-success mb-3">
+  <Link to={`${match.url}/add`} className="btn btn-sm btn-outline-success mb-3">
     Add Deposit
   </Link>
   <table className="table table-bordered">
@@ -181,10 +181,10 @@ const FormInputWrap = ({children}) => (
 )
 
 const Actions = ({ onEdit, onDelete, disabledDelBtn }) => (
-  <td className="text-center">
-    <button disabled={disabledDelBtn} className="btn btn-outline-primary btn-sm mr-2" onClick={onEdit}>Edit</button>
-    <button className="btn btn-outline-danger btn-sm" onClick={onDelete}>Delete</button>
-  </td>
+  <style.HeadTd className="text-center">
+    <button disabled={disabledDelBtn} className="btn text-primary btn-sm mr-2" onClick={onEdit}>Edit</button>
+    <button className="btn text-danger btn-sm" onClick={onDelete}>Delete</button>
+  </style.HeadTd>
 )
 
 const DepositWrapper = ({ children }) => (
@@ -198,10 +198,10 @@ const DepositWrapper = ({ children }) => (
 )
 
 const Data = ({ currency, amount, date }) => <>
-    <td>
+    <style.HeadTd>
       {amount} <span>{currency}</span>
-    </td>
-    <td>
-      {moment(date).format('MMM DD, YYYY')}
-    </td>
+    </style.HeadTd>
+    <style.HeadTd>
+      {moment.utc(date).format('MMM DD, YYYY')}
+    </style.HeadTd>
   </>

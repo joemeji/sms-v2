@@ -31,12 +31,12 @@ const PaymentInfo = ({ studentDetails: _ }) => {
     <Table className="table">
       <tbody>
         <TableRow label="Payment Plan:" value={_.plan && _.plan.resultName} />
-        <TableRow label="Payment Date Start:" value={moment(_.payment_date_start).format('MMM DD, YYYY')} />
+        <TableRow label="Payment Date Start:" value={moment.utc(_.payment_date_start).format('MMM DD, YYYY')} />
         <TableRow label="Signed Contract:" value={_.signed_contract} />
         <TableRow label="Sales Rep:" value={_.sales_rep} />
         <TableRow label="Payment Method:" value={_.payment_method} />
         <TableRow label="Payment Status:" value={_.payment_status} />
-        <TableRow label="Joined Date:" value={moment(_.joined_date).format('MMM DD, YYYY')} />
+        <TableRow label="Joined Date:" value={moment.utc(_.joined_date).format('MMM DD, YYYY')} />
       </tbody>
     </Table>
   )

@@ -1,6 +1,7 @@
 const Student = require('../models/Student')
 const PaymentList = require('../models/PaymentList')
 const Deposit = require('../models/Deposit')
+const { Types } = require('mongoose')
 
 exports.index = async (req, res, next) => {
   try {
@@ -36,7 +37,7 @@ exports.store = async (req, res, next) => {
     });
     if (student) {
       const depositPayloadMap = deposit.map(item => ({ ...item, student: student._id }))
-      const breakdownLists = paymentLists.map( item => ({ ...item, student_id: student._id }) )
+      const breakdownLists = paymentLists.map( item => ({ ...item, student: student._id }) )
       const depositResult = await Deposit.insertMany(depositPayloadMap)
       const _paymentLists = await PaymentList.insertMany(breakdownLists)
       res.send({ 
@@ -72,6 +73,36 @@ exports.get = async (req, res, next) => {
   }
   catch(err) {
     next(err)
+  }
+} 
+
+// Payment Lists
+exports.getPaymentList = async (req, res, next) => {
+  try {
+    const page = req.query.page || 1;
+    const { studentId } = req.params;
+    const paymentListAggregate = Student.aggregate([
+      {
+        $match: { is_deleted: false, student: new Types.ObjectId(studentId) }
+      },
+    ]);
+    const paymentList = await PaymentList.aggregatePaginate(paymentListAggregate, { page, limit: 20 });
+    res.send(paymentList);
+  }
+  catch(err) {
+    next(err);
+  }
+} 
+
+exports.updatePaymentList = async (req, res, next) => {
+  try {
+    const { paymentListId, studentId } = req.params
+    let paymentList = await PaymentList.findByIdAndUpdate(paymentListId, { ...req.body })
+    paymentList = await PaymentList.findById(paymentListId)
+    res.send(paymentList)
+  }
+  catch(err) {
+    next(err);
   }
 } 
 

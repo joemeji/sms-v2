@@ -4,6 +4,7 @@ import createStudent from './reducer/createStudentReducer'
 import student from './reducer/studentReducer'
 import studentDetails from './reducer/studentDetails'
 import deposit from './reducer/depositReducer'
+import paymentList from './reducer/paymentLists'
 
 
 export default configureStore({
@@ -13,5 +14,6 @@ export default configureStore({
     student,
     studentDetails,
     deposit,
+    paymentList,
   }
 });

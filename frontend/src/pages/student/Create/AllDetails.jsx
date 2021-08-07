@@ -25,7 +25,7 @@ export const AllDetails = ({ student_details, payment_details }) => {
       amount: plan && plan.amount,
       status: 'Pending',
       currency: plan && plan.currency,
-      plan_id: plan && plan._id,
+      plan: plan && plan._id,
     }))
     details.plan = details.payment_plan_id;
     delete details.payment_plan_id;

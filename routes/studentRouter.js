@@ -11,4 +11,7 @@ router.post('/:studentId/deposit', studentController.addDeposit);
 router.put('/:studentId/deposit', studentController.updateDeposit);
 router.delete('/:studentId/deposit/:depositId', studentController.deleteDeposit);
 
+router.get('/:studentId/payment_list', studentController.getPaymentList);
+router.put('/:studentId/payment_list/:paymentListId', studentController.updatePaymentList);
+
 module.exports = router;

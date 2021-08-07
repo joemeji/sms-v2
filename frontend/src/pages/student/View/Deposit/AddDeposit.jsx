@@ -60,7 +60,7 @@ export const AddDeposit = ({ studentId, currency }) => {
         <div className="form-group">
           <DatePicker className="regular" label="Date" format="YYYY-MM-DD" placeholder="Date" 
             required
-            value={moment(date)}
+            value={moment.utc(date)}
             onChange={(date, dateString) => setDate(dateString)}
           />
         </div>

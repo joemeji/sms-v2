@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Table } from '../index.style'
+import { Table } from './index.style'
 import styled from 'styled-components'
 import moment from 'moment'
 import { useForm } from 'react-hook-form'
@@ -104,7 +104,7 @@ const PaymentInfo = ({ studentDetails: _ }) => {
             name="payment_date_start"
             className="w-100"
             format="YYYY-MM-DD"
-            value={moment(paymentDateStartForm || new Date())}
+            value={moment.utc(paymentDateStartForm || new Date())}
             onChange={(date, dateString) => setPaymentDateStartForm(dateString)}
           />
         } />
@@ -146,7 +146,7 @@ const PaymentInfo = ({ studentDetails: _ }) => {
             name="joined_date"
             className="w-100"
             format="YYYY-MM-DD"
-            value={moment(joinedDateForm || new Date())}
+            value={moment.utc(joinedDateForm || new Date())}
             onChange={(date, dateString) => setJoinedDateForm(dateString)}
           />
         } />
