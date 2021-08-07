@@ -80,7 +80,10 @@ export const Create = (props) => {
       </FormGroup>
       <div className="text-right">
         <Button type="button" variant="default" className="mr-2" 
-          onClick={() => dispatch(emptyDetails())}>
+          onClick={() => {
+            dispatch(emptyDetails()); 
+            history.push('/student');
+          }}>
           Cancel
         </Button>
         <Button type="submit" variant="primary" disabled={disabledSubmit}>

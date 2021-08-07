@@ -2,6 +2,8 @@ import { configureStore } from '@reduxjs/toolkit'
 import plan from './reducer/planReducer'
 import createStudent from './reducer/createStudentReducer'
 import student from './reducer/studentReducer'
+import studentDetails from './reducer/studentDetails'
+import deposit from './reducer/depositReducer'
 
 
 export default configureStore({
@@ -9,5 +11,7 @@ export default configureStore({
     plan,
     createStudent,
     student,
+    studentDetails,
+    deposit,
   }
 });

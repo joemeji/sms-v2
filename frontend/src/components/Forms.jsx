@@ -16,16 +16,22 @@ const DatePickerWrapper = styled.div`
   }
 `;
 
-export const Input = React.forwardRef((props, ref) => (
+export const Input = React.forwardRef(({label,id, className, onChange, value, ...rest}, ref) => (
   <>
-    <Label htmlFor={props.id}>{props.label}</Label>
-    <input type={props.type} className={`form-control ${props.className || ''}`} {...props} ref={ref} />
+    {label && <Label htmlFor={id}>{label}</Label>}
+    <input 
+      className={`form-control ${className || ''}`} 
+      onChange={onChange} 
+      value={value} 
+      ref={ref} 
+      {...rest}
+    />
   </>
 ))
 
 export const DatePicker = React.forwardRef(({label,id, className, onChange, value, ...rest}, ref) => (
   <>
-    <Label htmlFor={id}>{label}</Label>
+    {label && <Label htmlFor={id}>{label}</Label>}
     <DatePickerWrapper>
       <AntDatePicker 
         id={id} 
@@ -42,7 +48,7 @@ export const DatePicker = React.forwardRef(({label,id, className, onChange, valu
 
 export const Select = React.forwardRef(({ value, onChange, id, label, options, className, ...rest }, ref) => (
   <>
-    <Label htmlFor={id}>{label}</Label>
+    {label && <Label htmlFor={id}>{label}</Label>}
     <select 
       value={value}
       onChange={onChange}

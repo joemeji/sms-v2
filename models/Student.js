@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const aggregatePaginate = require('mongoose-aggregate-paginate-v2');
 
 const planSchema = new mongoose.Schema({
-  deposit: { type: Array, default: [], },
   payment_date_start: { type: Date, default: null, },
   joined_date: { type: Date, default: null, },
   signed_contract: { type: String, default: null, },
@@ -16,7 +15,8 @@ const planSchema = new mongoose.Schema({
   country: { type: String, default: null, },
   pipeline: { type: String, default: null, },
   funnel: { type: String, default: null, },
-  plan: { type: mongoose.Schema.Types.ObjectId, default: null, ref: 'Plan' }
+  currency: { type: String, default: null, },
+  plan: { type: mongoose.Schema.Types.ObjectId, default: null, ref: 'Plan' },
 }, { timestamps: true }); 
 
 planSchema.plugin(aggregatePaginate);
