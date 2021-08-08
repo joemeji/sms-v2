@@ -8,6 +8,7 @@ html.dark {
   --back-btn-bg: #475467;
   --link-hover-bg: #19222f;
   --link-color-nav: var(--text-color);
+  --table-hover-bg: #323f52;
 }
 
 html.light {
@@ -18,6 +19,7 @@ html.light {
   --back-btn-bg: #f3f3f3;
   --link-hover-bg: #f3f3f3;
   --link-color-nav: #000;
+  --table-hover-bg: whitesmoke;
 }
 
 .form-control,

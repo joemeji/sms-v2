@@ -6,7 +6,21 @@ const { Types } = require('mongoose')
 exports.index = async (req, res, next) => {
   try {
     const page = req.query.page || 1;
+    const { name, email, plan, sales_rep, signed_contract, payment_status } = req.query;
+
+    const match = {}
+
+    if (name) match.$text = { $search: name }
+    if (email) match.email = email
+    if (sales_rep) match.sales_rep = sales_rep
+    if (signed_contract) match.signed_contract = signed_contract
+    if (payment_status) match.payment_status = payment_status
+    if (plan) match.plan = new Types.ObjectId(plan)
+
     const studentAgregate = Student.aggregate([
+      {
+        $match: match
+      },
       {
         $lookup: {
           from: 'plans',

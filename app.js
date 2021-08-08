@@ -15,7 +15,7 @@ require('dotenv').config();
 
 mongoose.connect(
   'mongodb+srv://joemyDb:RqQxqqTM.caXnZ6@cluster0.palsk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', 
-  {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}
+  {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true}
 );
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => console.log('db connected.'));

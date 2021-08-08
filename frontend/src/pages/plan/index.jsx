@@ -4,7 +4,7 @@ import Create from './Create';
 import Edit from './Edit';
 import * as P from './planStyle';
 import axios from 'axios'
-import { fetch, isFetching, setEdit } from 'store/reducer/planReducer'
+import { fetch, setEdit } from 'store/reducer/planReducer'
 import Pagination from 'components/Pagination'
 import { useLocation } from 'react-router-dom'
 import { useQuery } from 'hooks'
@@ -19,10 +19,8 @@ export const Index = (props) => {
 
   React.useEffect(() => {
     (async () => {
-      dispatch(isFetching(true))
       const res = await axios.get(`/api/plan${queries ? `?${queries}` : ''}`)
       dispatch(fetch(res.data))
-      dispatch(isFetching(false))
     })()
   }, [dispatch, queries])
 

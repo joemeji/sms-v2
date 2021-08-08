@@ -12,7 +12,7 @@ import Pagination from 'components/Pagination'
 import { PaginationWrapper } from 'styled'
 import { allPaymentList } from 'store/reducer/paymentLists'
 
-export const List = ({ listDocs, match, student ,payment }) => {
+export const List = ({ listDocs, match, student ,payment, isFetching, totalDocs }) => {
   const query = useQuery()
   const dispatch = useDispatch()
   const studentId = student && student._id
@@ -22,7 +22,7 @@ export const List = ({ listDocs, match, student ,payment }) => {
     let unmount = true
     if (unmount) {
       (async () => {
-        dispatch( allPaymentList({ isFetching: false }) )
+        dispatch( allPaymentList({ isFetching: true }) )
         if (studentId) {
           const { data } = await axios.get(
             `/api/student/${studentId}/payment_list?${queries}`
@@ -39,7 +39,7 @@ export const List = ({ listDocs, match, student ,payment }) => {
       <div className="lists-actions mb-3">
         <Link to={`${match.url}/add`} className="btn btn-sm btn-primary">Add Payment</Link>
       </div>
-      <ListContainer listDocs={listDocs} />
+      <ListContainer listDocs={listDocs} isFetching={isFetching} totalDocs={totalDocs} />
       {payment && (payment.totalDocs > payment.limit) && <PaginationWrapper className="p-0">
         <Pagination 
           totalPages={payment && payment.totalPages}
@@ -54,13 +54,15 @@ const mapStateToProps = (state) => ({
   listDocs: state.paymentList.payment && state.paymentList.payment.docs,
   limit: state.paymentList.payment && state.paymentList.payment.limit,
   payment: state.paymentList.payment,
-  student: state.studentDetails.studentDetails
+  student: state.studentDetails.studentDetails,
+  isFetching: state.paymentList.isFetching,
+  totalDocs: state.paymentList.payment && state.paymentList.payment.totalDocs,
 })
 
 export default connect(mapStateToProps)(List)
 
 
-const ListContainer = ({ listDocs }) => {
+const ListContainer = ({ listDocs, isFetching, totalDocs }) => {
   const [editList, setEditList] = React.useState({ isEdit: false, index: null })
   const [disabledUpdateBtn, setDisabledUpdateBtn] = React.useState(false)
   const dispatch = useDispatch()
@@ -99,6 +101,12 @@ const ListContainer = ({ listDocs }) => {
       <table className="table table-bordered">
         <tbody>
           <ListHead />
+          {isFetching && (
+            <tr><style.TdSmall colSpan="5" className="text-center">Loading...</style.TdSmall></tr>
+          )}
+          {totalDocs === 0 && !isFetching && (
+            <tr><style.TdSmall colSpan="5" className="text-center">No Results Found.</style.TdSmall></tr>
+          )}
           {listDocs && listDocs.map((doc, index) => (
             <React.Fragment key={index}>
               {(editList.isEdit && editList.index === index) ? (

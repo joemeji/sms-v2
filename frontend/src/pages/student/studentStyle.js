@@ -44,4 +44,13 @@ export const TableWrapper = styled.div`
   tbody tr:first-child th {
     border-top: none !important;
   }
+  th, td {
+    vertical-align: middle;
+  }
+  tr:hover td {
+    background: var(--table-hover-bg);
+  }
+  td:not(:last-child) {
+    cursor: pointer;
+  }
 `;

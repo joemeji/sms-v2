@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const aggregatePaginate = require('mongoose-aggregate-paginate-v2');
 
-const planSchema = new mongoose.Schema({
+const studentSchema = new mongoose.Schema({
   payment_date_start: { type: Date, default: null, },
   joined_date: { type: Date, default: null, },
   signed_contract: { type: String, default: null, },
@@ -19,6 +19,12 @@ const planSchema = new mongoose.Schema({
   plan: { type: mongoose.Schema.Types.ObjectId, default: null, ref: 'Plan' },
 }, { timestamps: true }); 
 
-planSchema.plugin(aggregatePaginate);
+studentSchema.index({ 
+  first_name: 'text', 
+  last_name: 'text', 
+  email: 'text', 
+});
 
-module.exports = mongoose.model('Student', planSchema);
+studentSchema.plugin(aggregatePaginate);
+
+module.exports = mongoose.model('Student', studentSchema);

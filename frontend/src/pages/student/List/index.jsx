@@ -9,8 +9,10 @@ import { useQuery } from 'hooks'
 import { PaginationWrapper } from 'styled'
 import Pagination from 'components/Pagination'
 import Box from 'components/Box'
+import SearchBar from './SearchBar'
+import { useHistory } from 'react-router-dom'
 
-export const Index = ({ match, student, studentData }) => {
+export const Index = ({ match, student, studentData, totalDocs }) => {
   const dispatch = useDispatch()
   const query = useQuery()
   const queries = query.toString()
@@ -27,6 +29,7 @@ export const Index = ({ match, student, studentData }) => {
 
   return (
     <>
+      <SearchBar />
       <Box 
         title="Student" 
         hasBackBtn={false}
@@ -44,6 +47,9 @@ export const Index = ({ match, student, studentData }) => {
             {studentData && studentData.docs && studentData.docs.map((doc, key) => (
               <Lists key={key} doc={doc} match={match} />
             ))}
+            {totalDocs === 0 && (
+              <tr><td colSpan="7" className="text-center">No Records Found.</td></tr>
+            )}
           </ListWrapper>
           
           {studentData && studentData.totalDocs > studentData.limit && <PaginationWrapper>
@@ -86,17 +92,24 @@ const ListWrapper = ({ isFetching, children }) => (
   </TableWrapper>
 )
 
-const Lists = ({ doc, match }) => (
-  <tr>
-    <td>{doc.first_name} {doc.last_name}</td>
-    <td>{doc.plan.length && doc.plan[0].resultName}</td>
-    <td>{doc.signed_contract}</td>
-    <td>{doc.sales_rep}</td>
-    <td>{doc.payment_status}</td>
-    <td>{moment(doc.joined_date).format('MMM DD, YYYY')}</td>
-    <td>
-      <Link to={`${match.url}/${doc._id}`} className="btn btn-sm text-primary mr-2">View</Link>
-      <Link to={`${match.url}/${doc._id}/edit`} className="btn btn-sm text-danger">Edit</Link>
-    </td>
-  </tr>
-)
+const Lists = ({ doc, match }) => {
+  const history = useHistory()
+  return (
+    <tr>
+      <td onClick={() => history.push(`${match.url}/${doc._id}`)}>
+        {doc.first_name} {doc.last_name}
+        <br/>
+        <span style={{ fontSize: '0.8em' }}>{doc.email}</span>    
+      </td>
+      <td onClick={() => history.push(`${match.url}/${doc._id}`)}>{doc.plan.length && doc.plan[0].resultName}</td>
+      <td onClick={() => history.push(`${match.url}/${doc._id}`)}>{doc.signed_contract}</td>
+      <td onClick={() => history.push(`${match.url}/${doc._id}`)}>{doc.sales_rep}</td>
+      <td onClick={() => history.push(`${match.url}/${doc._id}`)}>{doc.payment_status}</td>
+      <td onClick={() => history.push(`${match.url}/${doc._id}`)}>{moment(doc.joined_date).format('MMM DD, YYYY')}</td>
+      <td>
+        <Link to={`${match.url}/${doc._id}`} className="btn btn-sm text-primary mr-2">View</Link>
+        <Link to={`${match.url}/${doc._id}/edit`} className="btn btn-sm text-danger">Edit</Link>
+      </td>
+    </tr>
+  )
+}
