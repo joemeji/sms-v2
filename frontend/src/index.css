@@ -9,6 +9,7 @@ html.dark {
   --link-hover-bg: #19222f;
   --link-color-nav: var(--text-color);
   --table-hover-bg: #323f52;
+  transition: all 0.3s ease;
 }
 
 html.light {
@@ -20,6 +21,7 @@ html.light {
   --link-hover-bg: #f3f3f3;
   --link-color-nav: #000;
   --table-hover-bg: whitesmoke;
+  transition: all 0.3s ease;
 }
 
 .form-control,

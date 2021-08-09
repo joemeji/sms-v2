@@ -7,11 +7,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'antd/dist/antd.css';
 import './index.css';
 import { getAccessToken } from 'store/reducer/authReducer'
-
 import store from './store';
 import { onAuthStateChanged } from 'helpers'
 
-store.subscribe(() => console.log(store.getState()))
+// store.subscribe(() => console.log(store.getState()))
 
 onAuthStateChanged(payload => {
   store.dispatch( getAccessToken(payload) )
