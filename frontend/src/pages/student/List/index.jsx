@@ -1,11 +1,10 @@
 import React from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
 import { allStudent } from 'store/reducer/studentReducer'
 import moment from 'moment'
 import { TableWrapper } from '../studentStyle'
-import { useQuery } from 'hooks'
+import { useQuery, useHttp } from 'hooks'
 import { PaginationWrapper } from 'styled'
 import Pagination from 'components/Pagination'
 import Box from 'components/Box'
@@ -16,15 +15,20 @@ export const Index = ({ match, student, studentData, totalDocs }) => {
   const dispatch = useDispatch()
   const query = useQuery()
   const queries = query.toString()
+  const http = useHttp()
 
   React.useEffect(() => {
-    (async () => {
-      dispatch( allStudent({ isFetching: true }) )
-      const res = await axios.get('/api/student?' + queries)
-      if (res.data) {
-        dispatch( allStudent({ isFetching: false, studentData: res.data }) )
-      }
-    })()
+    let unmount = true
+    if (unmount) {
+      (async () => {
+        dispatch( allStudent({ isFetching: true }) )
+        const res = await http.get('/api/student?' + queries)
+        if (res.data) {
+          if (unmount) dispatch( allStudent({ isFetching: false, studentData: res.data }) )
+        }
+      })()
+    }
+    return () => unmount = false
   }, [dispatch, queries])
 
   return (

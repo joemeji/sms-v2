@@ -38,7 +38,6 @@ export const FormHeader = styled.div`
 `;
 
 export const TableWrapper = styled.div`
-  box-shadow: 0 3px 30px #00000005;
   border-radius: 3px;
   overflow: hidden;
   tbody tr:first-child th {

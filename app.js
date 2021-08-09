@@ -27,13 +27,14 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser('secret-shhhhhhhh'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'frontend/build')));
 
 // routes
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.post('/token', require('./controllers/userController').authToken);
+app.use('/api/user', usersRouter);
 app.use('/api/plan', require('./routes/planRouter'));
 app.use('/api/student', require('./routes/studentRouter'));
 app.get('/*', (req, res) => {

@@ -1,18 +1,20 @@
 const router = require('express').Router();
 const studentController = require('../controllers/studentController');
+const { protect } = require('../middleware/auth')
 
-router.post('/', studentController.store);
-router.get('/', studentController.index);
-router.get('/:studentId', studentController.get);
-router.put('/:studentId', studentController.update);
+router.post('/', protect, studentController.store);
+router.get('/', protect, studentController.index);
+router.get('/:studentId', protect, studentController.get);
+router.put('/:studentId', protect, studentController.update);
 
-router.get('/:studentId/deposit', studentController.getDeposits);
-router.post('/:studentId/deposit', studentController.addDeposit);
-router.put('/:studentId/deposit', studentController.updateDeposit);
-router.delete('/:studentId/deposit/:depositId', studentController.deleteDeposit);
+router.get('/:studentId/deposit', protect, studentController.getDeposits);
+router.post('/:studentId/deposit', protect, studentController.addDeposit);
+router.put('/:studentId/deposit', protect, studentController.updateDeposit);
+router.delete('/:studentId/deposit/:depositId', protect, studentController.deleteDeposit);
 
-router.get('/:studentId/payment_list', studentController.getPaymentList);
-router.post('/:studentId/payment_list', studentController.addPaymentList);
-router.put('/:studentId/payment_list/:paymentListId', studentController.updatePaymentList);
+router.get('/:studentId/payment_list', protect, studentController.getPaymentList);
+router.post('/:studentId/payment_list', protect, studentController.addPaymentList);
+router.put('/:studentId/payment_list/:paymentListId', protect, studentController.updatePaymentList);
 
+router.get('/payment/all-payment-dues', protect, studentController.allPaymentDues);
 module.exports = router;

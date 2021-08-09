@@ -1,22 +1,22 @@
 import React from 'react';
 import './App.css';
-import Header from 'layouts/Header';
 import Plan from 'pages/plan';
 import Student from 'pages/student';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import AllPaymentDues from 'pages/all-payment-dues';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import Login from 'pages/login'
+import PrivateRoute from 'components/PrivateRoute'
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="container-fluid p-0">
-        <Header />
-        <main className="container px-3 py-5">
-        <Switch>
-          <Route path="/plan" component={Plan} />
-          <Route path="/student" component={Student} />
-        </Switch>
-        </main>
-      </div>
+      <Switch>
+        <PrivateRoute path="/plan" component={Plan} />
+        <PrivateRoute path="/student" component={Student} />
+        <PrivateRoute path="/all-payment-dues" component={AllPaymentDues} />
+        <Route path="/login" component={Login} />
+        <Redirect from="/" to="/student" />
+      </Switch>
     </BrowserRouter>
   );
 }

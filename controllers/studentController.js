@@ -2,6 +2,7 @@ const Student = require('../models/Student')
 const PaymentList = require('../models/PaymentList')
 const Deposit = require('../models/Deposit')
 const { Types } = require('mongoose')
+const moment = require('moment')
 
 exports.index = async (req, res, next) => {
   try {
@@ -188,3 +189,22 @@ exports.deleteDeposit = async (req, res, next) => {
     next(err)
   }
 } 
+
+exports.allPaymentDues = async (req, res, next) => {
+  try {
+    const now = moment().format();
+    const _7DaysAgo = moment().add(-7, 'days');
+    const lists = await PaymentList.find({  
+      due_date: {
+        $lte: now,
+        $gte: _7DaysAgo,
+      }
+    })
+      .populate('student')
+      .populate('plan')
+    res.send(lists)
+  }
+  catch(err) {
+    next(err)
+  }
+}

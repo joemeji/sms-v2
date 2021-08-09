@@ -3,7 +3,7 @@ import { connect, useDispatch } from 'react-redux'
 import Button from 'react-bootstrap/Button'
 import * as Forms from 'components/Forms'
 import { recurrence as dReccurence, currencies } from 'helpers/dropdown'
-import axios from 'axios'
+import { useHttp } from 'hooks'
 import { setEdit, updateDocs } from 'store/reducer/planReducer'
 import Box from 'components/Box'
 
@@ -15,6 +15,7 @@ export const Edit = (props) => {
   const [resultName, setResultName] = React.useState('')
   const [disabledBtn, setDisabledBtn] = React.useState(false)
   const dispatch = useDispatch()
+  const http = useHttp()
 
   const doc = props.plan && props.plan.docs && props.plan.docs.find(item => item._id === props.editId)
 
@@ -29,7 +30,7 @@ export const Edit = (props) => {
       recurrence, 
       resultName, 
     }
-    const res = await axios.post(`/api/plan/${props.editId}`, payload);
+    const res = await http.post(`/api/plan/${props.editId}`, payload);
     if (res.data) {
       dispatch( updateDocs({ _id: props.editId, doc: res.data }) )
       dispatch( setEdit({ isEdit: false, _id: null }) )

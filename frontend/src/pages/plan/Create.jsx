@@ -3,7 +3,7 @@ import { connect, useDispatch } from 'react-redux'
 import Button from 'react-bootstrap/Button'
 import * as Forms from 'components/Forms'
 import { recurrence as dReccurence, currencies } from 'helpers/dropdown'
-import axios from 'axios'
+import { useHttp } from 'hooks'
 import { addDocs } from 'store/reducer/planReducer'
 import Box from 'components/Box'
 
@@ -15,6 +15,7 @@ export const Create = (props) => {
   const [resultName, setResultName] = React.useState('')
   const [disabledBtn, setDisabledBtn] = React.useState(false)
   const dispatch = useDispatch()
+  const http = useHttp()
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault()
@@ -26,7 +27,7 @@ export const Create = (props) => {
       recurrence, 
       resultName, 
     }
-    const res = await axios.post('/api/plan', payload);
+    const res = await http.post('/api/plan', payload);
     if (res.data) {
       dispatch( addDocs(res.data) )
       setDisabledBtn(false)

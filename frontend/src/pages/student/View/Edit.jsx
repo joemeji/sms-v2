@@ -6,7 +6,7 @@ import moment from 'moment'
 import { useForm } from 'react-hook-form'
 import { Input, DatePicker, Select } from 'components/Forms'
 import { funnels, paymentMethods, paymentStatus, pipelines, salesRep } from 'helpers/dropdown'
-import axios from 'axios'
+import { useHttp } from 'hooks'
 import { Link, useHistory } from 'react-router-dom'
 import { getDetails } from 'store/reducer/studentDetails'
 import { useDispatch } from 'react-redux'
@@ -15,6 +15,7 @@ export const Edit = ({ studentDetails }) => {
   const [disabledSubmit, setDisabledSubmit] = React.useState(false)
   const dispatch = useDispatch()
   const history = useHistory()
+  const http = useHttp()
 
   const handleUpdateSubmit = React.useCallback(async (e) => {
     e.preventDefault()
@@ -24,7 +25,7 @@ export const Edit = ({ studentDetails }) => {
     for (const [key, value] of formData.entries()) {
       payload[key] = value
     }
-    const { data } = await axios.put(`/api/student/${studentDetails._id}`, payload)
+    const { data } = await http.put(`/api/student/${studentDetails._id}`, payload)
     setTimeout(() => {
       dispatch( getDetails({ isFetching: false, studentDetails: data }) )
       setDisabledSubmit(false)
@@ -71,12 +72,13 @@ const PaymentInfo = ({ studentDetails: _ }) => {
     payment_status: _.payment_status,
   }
   const { register } = useForm({ defaultValues })
+  const http = useHttp()
 
   React.useEffect(() => {
     let unmount = true
     if (unmount) {
       (async () => {
-        const { data } = await axios.get('/api/plan/all')
+        const { data } = await http.get('/api/plan/all')
         if (unmount) {
           setPlans(data)
           setPlanForm(_.plan._id)

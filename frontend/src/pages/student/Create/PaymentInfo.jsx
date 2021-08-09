@@ -7,7 +7,7 @@ import { MdKeyboardBackspace } from "react-icons/md";
 import { currencies, paymentMethods, paymentStatus, salesRep } from 'helpers/dropdown'
 import { useForm } from "react-hook-form"
 import { Redirect, useHistory } from 'react-router-dom'
-import axios from 'axios'
+import { useHttp } from 'hooks'
 import { updatePaymentDetailsForm, emptyDetails } from 'store/reducer/createStudentReducer'
 import moment from 'moment'
 import { BsArrowRight } from "react-icons/bs"
@@ -21,6 +21,7 @@ export const PaymentInfo = (props) => {
   const [payment_date_start, setPaymentDateStart] = useState(null)
   const [joined_date, setJoinedDate] = useState(null)
   const [disableSubmit, setDisableSubmit] = useState(false)
+  const http = useHttp()
 
   const onSubmit = useCallback((data) => {
     const deposit = [{ amount: data.amount, currency: data.currency, date: depositDate }]
@@ -56,7 +57,7 @@ export const PaymentInfo = (props) => {
     if (unmount) {
       (async () => {
         const _ = props.payment_details
-        const res = await axios.get('/api/plan/all');
+        const res = await http.get('/api/plan/all');
         if (unmount) setPlans(res.data)
         setValue('payment_plan_id', _ && _.payment_plan_id)
       })()

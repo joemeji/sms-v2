@@ -3,29 +3,31 @@ import { connect, useDispatch } from 'react-redux';
 import Create from './Create';
 import Edit from './Edit';
 import * as P from './planStyle';
-import axios from 'axios'
 import { fetch, setEdit } from 'store/reducer/planReducer'
 import Pagination from 'components/Pagination'
 import { useLocation } from 'react-router-dom'
 import { useQuery } from 'hooks'
 import { PaginationWrapper } from 'styled'
 import Box from 'components/Box';
+import { useHttp } from 'hooks'
+import BaseLayout from 'layouts/BaseLayout'
 
 export const Index = (props) => {
   const dispatch = useDispatch()
   const location = useLocation()
   const query = useQuery()
   const queries = query.toString()
+  const http = useHttp()
 
   React.useEffect(() => {
     (async () => {
-      const res = await axios.get(`/api/plan${queries ? `?${queries}` : ''}`)
+      const res = await http.get(`/api/plan${queries ? `?${queries}` : ''}`)
       dispatch(fetch(res.data))
     })()
   }, [dispatch, queries])
 
   return (
-    <>
+    <BaseLayout>
       <div className="row">
         <div className="col-md-4">
           {props.isEdit ? <Edit/> : <Create/>}
@@ -69,7 +71,7 @@ export const Index = (props) => {
           </Box>
         </div>
       </div>
-    </>
+    </BaseLayout>
   );
 }
 

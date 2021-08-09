@@ -7,7 +7,7 @@ import * as style from './index.style'
 import Home from './Home'
 import Deposit from './Deposit'
 import Edit from './Edit'
-import axios from 'axios'
+import { useHttp } from 'hooks'
 import { getDetails } from 'store/reducer/studentDetails'
 import { allDeposit } from 'store/reducer/depositReducer'
 import PaymentLists from './PaymentLists'
@@ -15,13 +15,14 @@ import PaymentLists from './PaymentLists'
 export const Index = ({ match }) => {
   const { studentId } = useParams()
   const dispatch = useDispatch()
+  const http = useHttp()
 
   React.useEffect(() => {
     let unmount = true
     if (unmount) {
       (async () => {
         dispatch( getDetails({ isFetching: true }) )
-        const { data } = await axios.get(`/api/student/${studentId}`)
+        const { data } = await http.get(`/api/student/${studentId}`)
         if (unmount) {
           dispatch( getDetails({ studentDetails: data, isFetching: false }) )
         }
@@ -34,7 +35,7 @@ export const Index = ({ match }) => {
     let unmount = true
     if (unmount) {
       (async () => {
-        const { data } = await axios.get(`/api/student/${studentId}/deposit`)
+        const { data } = await http.get(`/api/student/${studentId}/deposit`)
         if (unmount) {
           dispatch( allDeposit(data) )
         }

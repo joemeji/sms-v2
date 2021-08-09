@@ -4,7 +4,7 @@ import { Form, BackButton, FormHeader } from '../studentStyle'
 import Button from 'react-bootstrap/Button'
 import { MdKeyboardBackspace } from "react-icons/md";
 import { useHistory, Redirect } from 'react-router-dom'
-import axios from 'axios'
+import { useHttp } from 'hooks'
 import styled from 'styled-components'
 import { emptyDetails } from 'store/reducer/createStudentReducer'
 import scheduleDateLists from 'helpers/scheduleDateLists'
@@ -15,6 +15,7 @@ export const AllDetails = ({ student_details, payment_details }) => {
   const dispatch = useDispatch()
   const [plan, setPlan] = useState(null)
   const [disabledSubmit, setDisabledSubmit] = useState(false)
+  const http = useHttp()
 
   const onSubmit = useCallback(async (e) => {
     e.preventDefault()
@@ -29,7 +30,7 @@ export const AllDetails = ({ student_details, payment_details }) => {
     }))
     details.plan = details.payment_plan_id;
     delete details.payment_plan_id;
-    const { data } = await axios.post('/api/student', {...details, paymentLists})
+    const { data } = await http.post('/api/student', {...details, paymentLists})
     if (data) {
       setTimeout(() => {
         setDisabledSubmit(false)
@@ -44,7 +45,7 @@ export const AllDetails = ({ student_details, payment_details }) => {
     if (unmount) {
       (async () => {
         if (details.payment_plan_id) {
-          const { data } =  await axios.get(`/api/plan/${details.payment_plan_id}`)
+          const { data } =  await http.get(`/api/plan/${details.payment_plan_id}`)
           if (unmount) setPlan(data)
         }
       })()

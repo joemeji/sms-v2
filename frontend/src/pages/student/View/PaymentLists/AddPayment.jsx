@@ -3,7 +3,7 @@ import { connect, useDispatch } from 'react-redux'
 import Box from 'components/Box'
 import { Input, Select, DatePicker } from 'components/Forms'
 import { currencies, paymentListStatus } from 'helpers/dropdown'
-import axios from 'axios'
+import { useHttp } from 'hooks'
 import { addPaymentList } from 'store/reducer/paymentLists'
 import { useHistory } from 'react-router-dom'
 
@@ -11,6 +11,7 @@ export const AddPayment = ({ student, match }) => {
   const [disabledSubmit, setDisabledSubmit] = React.useState(false)
   const dispatch = useDispatch()
   const history = useHistory()
+  const http = useHttp()
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault()
@@ -22,7 +23,7 @@ export const AddPayment = ({ student, match }) => {
     for (const [key, value] of formData.entries()) {
       payload[key] = value
     }
-    const { data } = await axios.post(`/api/student/${student._id}/payment_list`, payload)
+    const { data } = await http.post(`/api/student/${student._id}/payment_list`, payload)
     setTimeout(() => {
       setDisabledSubmit(false)
       dispatch( addPaymentList({ data }) )

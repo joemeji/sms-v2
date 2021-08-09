@@ -2,15 +2,15 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { Input, Select } from 'components/Forms'
 import { paymentStatus, salesRep } from 'helpers/dropdown'
 import { SearchWrapper, SearchIncludes } from './search.style'
-import axios from 'axios'
-import { useQuery } from 'hooks'
 import { useHistory } from 'react-router-dom'
+import { useQuery, useHttp } from 'hooks'
 
 function SearchBar() {
   const [plans, setPlans] = useState([])
   const query = useQuery()
   const history = useHistory()
   const [planForm, setPlanForm] = useState(query.get('plan') || '')
+  const http = useHttp()
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault()
@@ -30,7 +30,7 @@ function SearchBar() {
     let unmount = true
     if (unmount) {
       (async () => {
-        const { data } = await axios.get('/api/plan/all')
+        const { data } = await http.get('/api/plan/all')
         if (unmount) {
           setPlans(data)
         }

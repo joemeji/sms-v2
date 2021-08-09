@@ -1,10 +1,11 @@
 const router = require('express').Router();
 const planController = require('../controllers/planController');
+const { protect } = require('../middleware/auth')
 
-router.get('/', planController.index);
-router.get('/all', planController.all);
-router.get('/:planId', planController.get);
-router.post('/', planController.create);
-router.post('/:id', planController.edit);
+router.get('/', protect, planController.index);
+router.get('/all', protect, planController.all);
+router.get('/:planId', protect, planController.get);
+router.post('/', protect, planController.create);
+router.post('/:id', protect, planController.edit);
 
 module.exports = router;

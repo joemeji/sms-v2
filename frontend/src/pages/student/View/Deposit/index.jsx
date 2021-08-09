@@ -3,12 +3,12 @@ import React from 'react'
 import { connect, useDispatch } from 'react-redux'
 import * as style from './deposit.style'
 import { Input, DatePicker, Select } from 'components/Forms'
-import axios from 'axios'
 import { setEditDeposit } from 'store/reducer/studentDetails'
 import { updateDeposit, deleteDeposit } from 'store/reducer/depositReducer'
 import { Link, Route, Switch } from 'react-router-dom'
 import AddDeposit from './AddDeposit'
 import { currencies } from 'helpers/dropdown'
+import { useHttp } from 'hooks'
 
 export const Deposit = ({ match, deposit, currency, studentId, editDeposit }) => {
   return (
@@ -52,10 +52,11 @@ export default connect(mapStateToProps)(Deposit)
 const Detail = ({ deposits, studentId, index, currency, amount, date, editDeposit }) => {
   const dispatch = useDispatch()
   const [disabledDelBtn, setDisabledDelBtn] = React.useState(false)
+  const http = useHttp()
 
   const onDeleteDeposit = React.useCallback(async () => {
     const _ = deposits.length && deposits[index]
-    const { data } = await axios.delete(`/api/student/${studentId}/deposit/${_ && _._id}`)
+    const { data } = await http.delete(`/api/student/${studentId}/deposit/${_ && _._id}`)
     setDisabledDelBtn(true)
     if (data.success === true) {
       setTimeout(() => {
@@ -96,6 +97,7 @@ const Form = ({ deposits, studentId, depositIndex, currency, amount, date, onCan
   const [formCurrency, setFormCurrency] = React.useState(currency)
   const [disabledSubmit, setDisabledSubmit] = React.useState(false)
   const dispatch = useDispatch()
+  const http = useHttp()
 
   const onUpdate = React.useCallback(async () => {
     const deposit = {
@@ -105,7 +107,7 @@ const Form = ({ deposits, studentId, depositIndex, currency, amount, date, onCan
       currency: formCurrency,
     }
     setDisabledSubmit(true)
-    const { data } = await axios.put(`/api/student/${studentId}/deposit`, deposit)
+    const { data } = await http.put(`/api/student/${studentId}/deposit`, deposit)
     if (data) {
       setTimeout(() => {
         setDisabledSubmit(false)

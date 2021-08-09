@@ -5,7 +5,7 @@ import * as style from './paymentLists.style'
 import { currencies, paymentListStatus } from 'helpers/dropdown'
 import { DatePicker, Input, Select } from 'components/Forms'
 import { updatePaymentList, deletePaymentList } from 'store/reducer/paymentLists'
-import axios from 'axios'
+import { useHttp } from 'hooks'
 import { Link } from 'react-router-dom'
 import { useQuery } from 'hooks'
 import Pagination from 'components/Pagination'
@@ -17,6 +17,7 @@ export const List = ({ listDocs, match, student ,payment, isFetching, totalDocs 
   const dispatch = useDispatch()
   const studentId = student && student._id
   const queries = query.toString()
+  const http = useHttp()
 
   React.useEffect(() => {
     let unmount = true
@@ -24,7 +25,7 @@ export const List = ({ listDocs, match, student ,payment, isFetching, totalDocs 
       (async () => {
         dispatch( allPaymentList({ isFetching: true }) )
         if (studentId) {
-          const { data } = await axios.get(
+          const { data } = await http.get(
             `/api/student/${studentId}/payment_list?${queries}`
           )
           dispatch( allPaymentList({ isFetching: false, payment: data }) )
@@ -66,11 +67,12 @@ const ListContainer = ({ listDocs, isFetching, totalDocs }) => {
   const [editList, setEditList] = React.useState({ isEdit: false, index: null })
   const [disabledUpdateBtn, setDisabledUpdateBtn] = React.useState(false)
   const dispatch = useDispatch()
+  const http = useHttp()
 
   const onDelete = React.useCallback(async (index) => {
     const { studentId, _id: paymentListId } = listDocs[index]
     setDisabledUpdateBtn(true)
-    const { data } = await axios.put(`/api/student/${studentId}/payment_list/${paymentListId}`, { is_deleted: true })
+    const { data } = await http.put(`/api/student/${studentId}/payment_list/${paymentListId}`, { is_deleted: true })
     if (data) {
       setTimeout(() => {
         dispatch( deletePaymentList({ index }) )
@@ -88,7 +90,7 @@ const ListContainer = ({ listDocs, isFetching, totalDocs }) => {
       payload[key] = value
     }
     const { studentId, _id: paymentListId } = listDocs[editList.index]
-    const { data } = await axios.put(`/api/student/${studentId}/payment_list/${paymentListId}`, {...payload})
+    const { data } = await http.put(`/api/student/${studentId}/payment_list/${paymentListId}`, {...payload})
     setTimeout(() => {
       dispatch( updatePaymentList({ index: editList.index, paymentData: data }) )
       setDisabledUpdateBtn(false)

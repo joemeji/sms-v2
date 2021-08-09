@@ -3,10 +3,10 @@ import { useDispatch } from 'react-redux'
 import Box from 'components/Box'
 import { Input, DatePicker, Select } from 'components/Forms'
 import moment from 'moment'
-import axios from 'axios'
 import { addDeposit } from 'store/reducer/depositReducer'
 import { useHistory } from 'react-router-dom'
 import { currencies } from 'helpers/dropdown'
+import { useHttp } from 'hooks'
 
 export const AddDeposit = ({ studentId, currency }) => {
   const [amount, setAmount] = useState('')
@@ -15,11 +15,12 @@ export const AddDeposit = ({ studentId, currency }) => {
   const [currencyForm, setCurrencyForm] = useState(currency || '')
   const dispatch = useDispatch()
   const history = useHistory()
+  const http = useHttp()
 
   const handleAddDeposit = useCallback(async (e) => {
     e.preventDefault()
     setDisabledSubmit(true)
-    const { data } = await axios.post(
+    const { data } = await http.post(
       `/api/student/${studentId}/deposit`, 
       { amount, date, currency: currencyForm }
     )
