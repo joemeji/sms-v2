@@ -8,24 +8,9 @@ import { BiSun, BiMoon } from 'react-icons/bi'
 import styled from 'styled-components'
 
 const [html] = document.getElementsByTagName('html')
-const theme = localStorage.getItem('theme')
-const themeMap = {
-  dark: 'light',
-  light: 'dark',
-}
-
-theme ? html.classList.add(theme) : html.classList.add('light')
 
 export const Header = () => {
   const [isDark, setIsDark] = React.useState(false)
-
-  const toggleTheme = () => {
-    const current = localStorage.getItem('theme')
-    const next = themeMap[current]
-    html.classList.replace(current, next)
-    localStorage.setItem('theme', next)
-    setIsDark(!isDark)
-  }
 
   const handleLogout = async () => {
     try {
@@ -42,16 +27,14 @@ export const Header = () => {
   }
 
   React.useEffect(() => {
-    const current = localStorage.getItem('theme')
-    if (current === 'dark') {
-      setIsDark(true)
-      return
+    if (isDark) {
+      html.classList.add('dark')
+      html.classList.remove('light')
+    } else {
+      html.classList.add('light')
+      html.classList.remove('dark')
     }
-    if (current === 'light') {
-      setIsDark(false)
-      return
-    }
-  }, [])
+  }, [isDark])
 
   return (
     <h.Header>
@@ -65,7 +48,7 @@ export const Header = () => {
         <div>
 
           <div className="d-flex align-items-center">
-            <TogglerButton onClick={toggleTheme} className="mr-2">
+            <TogglerButton onClick={() => setIsDark(!isDark)} className="mr-2">
               {isDark ? <BiSun /> : <BiMoon />}
             </TogglerButton>
             <Button onClick={handleLogout}>Logout</Button>
