@@ -36,22 +36,6 @@ export const PaymentInfo = (props) => {
     }, 300)
   }, [depositDate, joined_date, payment_date_start, dispatch, history])
 
-  const onDatePickerChange = useCallback((date, dateString, type) => {
-    switch(type) {
-      case 'depositDate':
-        setDepositDate(dateString)
-        return
-      case 'paymentDateStart':
-        setPaymentDateStart(dateString)
-        return
-      case 'joinedDate':
-        setJoinedDate(dateString)
-        return
-      default:
-        return
-    }
-  }, [])
-
   useEffect(() => {
     let unmount = true
     if (unmount) {
@@ -113,7 +97,7 @@ export const PaymentInfo = (props) => {
                 className="regular"
                 format="YYYY-MM-DD"
                 value={moment(depositDate || new Date())}
-                onChange={(date, dateString) => onDatePickerChange(date, dateString, 'depositDate')}
+                onChange={(date, dateString) => setDepositDate(dateString)}
               />
             </div>
           </div>
@@ -133,7 +117,7 @@ export const PaymentInfo = (props) => {
                 className="regular"
                 format="YYYY-MM-DD"
                 value={moment(payment_date_start || new Date())}
-                onChange={(date, dateString) => onDatePickerChange(date, dateString, 'paymentDateStart')}
+                onChange={(date, dateString) => setPaymentDateStart(dateString)}
               />
           </div>
         </div>
@@ -172,7 +156,7 @@ export const PaymentInfo = (props) => {
             className="regular"
             format="YYYY-MM-DD"
             value={moment(joined_date || new Date())}
-            onChange={(date, dateString) => onDatePickerChange(date, dateString, 'joinedDate')}
+            onChange={(date, dateString) => setJoinedDate(dateString)}
           />
         </FormGroup>
         <div className="text-right">

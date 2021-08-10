@@ -64,18 +64,18 @@ export const Create = (props) => {
         </FormGroup>
         <FormGroup>
           <Input label="Country" placeholder="Country" 
-            {...register('country', { required: true })}
+            {...register('country')}
           />
         </FormGroup>
         <FormGroup>
           <Select label="Pipeline" 
-            {...register('pipeline', { required: true })}
+            {...register('pipeline')}
             options={['', ...pipelines].map(value => ({ value }))}
           />
         </FormGroup>
         <FormGroup>
           <Select label="Funnel" 
-            {...register('funnel', { required: true })}
+            {...register('funnel')}
             options={['', ...funnels].map(value => ({ value }))}
           />
         </FormGroup>

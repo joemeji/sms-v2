@@ -58,12 +58,6 @@ export const Edit = (props) => {
     }
   }, [props.isEdit, doc])
 
-  React.useEffect(() => {
-    if (amount && currency && recurrence && quantity) {
-      setResultName(`${amount} ${currency} × ${quantity} ${recurrence}`)
-    }
-  }, [amount, currency, quantity, recurrence])
-
   return (
     <Box title="Edit Plan" hasBackBtn={false}>
       <form onSubmit={handleSubmit} className="py-4 px-3">

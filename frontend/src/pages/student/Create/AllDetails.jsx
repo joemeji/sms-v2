@@ -34,6 +34,7 @@ export const AllDetails = ({ student_details, payment_details }) => {
     if (data) {
       setTimeout(() => {
         setDisabledSubmit(false)
+        dispatch( emptyDetails() )
         history.push('/student')
       }, 300)
     }
