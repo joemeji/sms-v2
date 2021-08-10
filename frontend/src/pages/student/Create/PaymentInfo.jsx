@@ -17,9 +17,9 @@ export const PaymentInfo = (props) => {
   const [plans, setPlans] = useState([])
   const history = useHistory()
   const dispatch = useDispatch()
-  const [depositDate, setDepositDate] = useState(null)
-  const [payment_date_start, setPaymentDateStart] = useState(null)
-  const [joined_date, setJoinedDate] = useState(null)
+  const [depositDate, setDepositDate] = useState(new Date())
+  const [payment_date_start, setPaymentDateStart] = useState(new Date())
+  const [joined_date, setJoinedDate] = useState(new Date())
   const [disableSubmit, setDisableSubmit] = useState(false)
   const http = useHttp()
 
@@ -60,8 +60,8 @@ export const PaymentInfo = (props) => {
       setValue('amount', _ && _.deposit.length && _.deposit[0].amount)
       setValue('currency', _ && _.deposit.length && _.deposit[0].currency)
       setDepositDate(_ && _.deposit.length && _.deposit[0].date)
-      setPaymentDateStart(_ && _.joined_date)
-      setJoinedDate(_ && _.payment_date_start)
+      setPaymentDateStart(_ && _.payment_date_start)
+      setJoinedDate(_ && _.joined_date)
     }
   }, [props.payment_details, setValue])
 

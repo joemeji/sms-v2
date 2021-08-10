@@ -5,6 +5,7 @@ import Student from 'pages/student';
 import AllPaymentDues from 'pages/all-payment-dues';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import Login from 'pages/login'
+import Register from 'pages/register'
 import PrivateRoute from 'components/PrivateRoute'
 import { useSelector } from 'react-redux'
 
@@ -28,6 +29,7 @@ function App() {
         <PrivateRoute path="/student" component={Student} />
         <PrivateRoute path="/all-payment-dues" component={AllPaymentDues} />
         <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
         <Redirect from="/" to="/student" />
       </Switch>
     </BrowserRouter>

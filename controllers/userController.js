@@ -31,13 +31,7 @@ exports.register = async (req, res, next) => {
     }
     user = await User.create({ name, email, password });
     if (user) {
-      const access_token = generateToken({ id: user.id });
-      res.cookie('access_token', access_token, {
-        httpOnly: true, 
-        signed: true,
-        path: '/token',
-      });
-      res.send({ access_token, success: true })
+      res.send({ success: true })
     }
   }
   catch(err) {

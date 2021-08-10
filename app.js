@@ -5,16 +5,17 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const db = mongoose.connection;
+require('dotenv').config();
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
 const app = express();
 
-require('dotenv').config();
+const dbPath = process.env.NODE_ENV === 'production' ? process.env.DB_PROD : process.env.DB_DEV;
 
 mongoose.connect(
-  'mongodb+srv://joemyDb:RqQxqqTM.caXnZ6@cluster0.palsk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', 
+  dbPath, 
   {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true}
 );
 db.on('error', console.error.bind(console, 'connection error:'));

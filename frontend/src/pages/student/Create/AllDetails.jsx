@@ -35,11 +35,11 @@ export const AllDetails = ({ student_details, payment_details }) => {
       setTimeout(() => {
         setDisabledSubmit(false)
         dispatch( emptyDetails() )
-        history.push('/student')
+        history.push(`/student/${data.student._id || ''}`)
       }, 300)
     }
     setDisabledSubmit(false)
-  }, [details, plan, history])
+  }, [details, plan, history, dispatch])
 
   useEffect(() => {
     let unmount = true
