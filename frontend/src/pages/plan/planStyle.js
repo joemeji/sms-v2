@@ -14,6 +14,7 @@ export const Table = styled.table`
   thead {
     th {
       border-top-width: 1px;
+      border-bottom: 0;
     }
     tr {
       &:first-child {

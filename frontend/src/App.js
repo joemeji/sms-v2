@@ -6,8 +6,21 @@ import AllPaymentDues from 'pages/all-payment-dues';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import Login from 'pages/login'
 import PrivateRoute from 'components/PrivateRoute'
+import { useSelector } from 'react-redux'
+
+const [html] = document.getElementsByTagName('html')
 
 function App() {
+  const { isDark } = useSelector(state => state.theme)
+
+  React.useEffect(() => {
+    if (isDark) {
+      html.setAttribute('dark', 'true')
+    } else {
+      html.removeAttribute('dark')
+    }
+  }, [isDark])
+
   return (
     <BrowserRouter>
       <Switch>

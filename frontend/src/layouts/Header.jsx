@@ -1,16 +1,15 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import * as h from 'styled/header'
 import Button from 'react-bootstrap/Button'
 import { NavLink } from 'react-router-dom'
 import axios from 'axios'
 import { BiSun, BiMoon } from 'react-icons/bi'
 import styled from 'styled-components'
+import { setTheme } from 'store/reducer/themeReducer'
 
-const [html] = document.getElementsByTagName('html')
-
-export const Header = () => {
-  const [isDark, setIsDark] = React.useState(false)
+export const Header = ({ isDark }) => {
+  const dispatch = useDispatch()
 
   const handleLogout = async () => {
     try {
@@ -26,29 +25,19 @@ export const Header = () => {
     }
   }
 
-  React.useEffect(() => {
-    if (isDark) {
-      html.classList.add('dark')
-      html.classList.remove('light')
-    } else {
-      html.classList.add('light')
-      html.classList.remove('dark')
-    }
-  }, [isDark])
-
   return (
     <h.Header>
       <h.Nav className="container">
         <h.Logo>ECOM Academy</h.Logo>
         <div className="links">
-          <NavLink to="/student">Student</NavLink>
+          <NavLink to="/student">Students</NavLink>
           <NavLink to="/all-payment-dues">All Payment Dues</NavLink>
           <NavLink to="/plan">Plans</NavLink>
         </div>
         <div>
 
           <div className="d-flex align-items-center">
-            <TogglerButton onClick={() => setIsDark(!isDark)} className="mr-2">
+            <TogglerButton onClick={() => dispatch(setTheme(!isDark))} className="mr-2">
               {isDark ? <BiSun /> : <BiMoon />}
             </TogglerButton>
             <Button onClick={handleLogout}>Logout</Button>
@@ -59,7 +48,9 @@ export const Header = () => {
   )
 }
 
-const mapStateToProps = (state) => ({ })
+const mapStateToProps = (state) => ({
+  isDark: state.theme.isDark
+})
 export default connect(mapStateToProps)(Header)
 
 

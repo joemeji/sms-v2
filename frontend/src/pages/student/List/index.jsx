@@ -112,7 +112,6 @@ const Lists = ({ doc, match }) => {
       <td onClick={() => history.push(`${match.url}/${doc._id}`)}>{moment(doc.joined_date).format('MMM DD, YYYY')}</td>
       <td>
         <Link to={`${match.url}/${doc._id}`} className="btn btn-sm text-primary mr-2">View</Link>
-        <Link to={`${match.url}/${doc._id}/edit`} className="btn btn-sm text-danger">Edit</Link>
       </td>
     </tr>
   )

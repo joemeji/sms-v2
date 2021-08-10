@@ -1,18 +1,5 @@
 
-
-html.dark {
-  --bg: #1f2937;
-  --box-bg: #293648;
-  --border-color: #4d5e75;
-  --text-color: #a8b0b9;
-  --back-btn-bg: #475467;
-  --link-hover-bg: #19222f;
-  --link-color-nav: var(--text-color);
-  --table-hover-bg: #323f52;
-  transition: all 0.3s ease;
-}
-
-html.light {
+html {
   --bg: #f9f9f9;
   --box-bg: #fff;
   --border-color: #dee2e6;
@@ -21,6 +8,18 @@ html.light {
   --link-hover-bg: #f3f3f3;
   --link-color-nav: #000;
   --table-hover-bg: whitesmoke;
+  transition: all 0.3s ease;
+}
+
+html[dark="true"] {
+  --bg: #1f2937;
+  --box-bg: #293648;
+  --border-color: #4d5e75;
+  --text-color: #a8b0b9;
+  --back-btn-bg: #475467;
+  --link-hover-bg: #19222f;
+  --link-color-nav: var(--text-color);
+  --table-hover-bg: #323f52;
   transition: all 0.3s ease;
 }
 

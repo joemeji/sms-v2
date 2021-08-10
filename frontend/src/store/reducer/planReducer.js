@@ -11,7 +11,13 @@ export const planSlice = createSlice({
   },
   reducers: {
     fetch: (state, action) => {
-      state.planDocs = action.payload
+      if (action.payload.isFetching) {
+        state.isFetching = true
+        state.planDocs = {}
+      } else {
+        state.isFetching = false
+        state.planDocs = action.payload.plan
+      }
     },
     addDocs: (state, action) => {
       state.planDocs.docs.push(action.payload)

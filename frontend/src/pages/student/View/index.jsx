@@ -51,7 +51,7 @@ export const Index = ({ match }) => {
           <div className="row">
             <div className="col-md-2 pl-0">
               <style.LinkWrapper className="border-right p-3">
-                <NavLink to="/home">Home</NavLink>
+                <NavLink to="/home">Student Info</NavLink>
                 <NavLink to="/edit">Edit Info</NavLink>
                 <NavLink to="/payment-lists">Payment Lists</NavLink>
                 <NavLink to="/deposits">Deposits</NavLink>
